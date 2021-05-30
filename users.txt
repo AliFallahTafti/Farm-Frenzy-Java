@@ -1,6 +1,9 @@
 [
   {
-    "username": "ali",
-    "password": "1381"
+    "username": "ALI",
+    "password": "1381",
+    "coins": 500,
+    "level": 1,
+    "stars": 0
   }
 ]

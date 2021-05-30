@@ -2,6 +2,9 @@ public class Point {
     private int x;
     private int y;
 
+    public String  print(){
+        return "["+x+" "+y+"]";
+    }
     public int getX() {
         return x;
     }

@@ -3,7 +3,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Inputs {
-    public void inputProcessing() {
+    public void inputProcessing() throws CloneNotSupportedException {
         Scanner scanner = new Scanner(System.in);
         Manager manager = new Manager();
         System.out.println("WELCOME TO FARM FRENZY!!");
@@ -18,7 +18,7 @@ public class Inputs {
                 }
             }
             while (manager.getLoginStatus() == 3) {
-                System.out.println("START\tLOGOUT\tSETTING");
+                System.out.println("START     LOGOUT     SETTING     EXIT");
                 String input = scanner.nextLine();
                 if (patternMatcher(input, "^START\\s+(\\d+)\\s*$")) {
                     Matcher matcher = getMatcher(input, "^START\\s+(\\d+)\\s*$");
@@ -59,6 +59,12 @@ public class Inputs {
                             int y= Integer.parseInt(matcher.group(2));
                             manager.plant(x,y);
                         }
+                    } else if (patternMatcher(input, "^BUILD\\s+(\\w+)\\s*$")) {
+                        Matcher matcher=getMatcher(input, "^BUILD\\s+(\\w+)\\s*$");
+                        if(matcher.matches()) {
+                            String name=matcher.group(1);
+                            manager.build(name);
+                        }
                     } else if (patternMatcher(input, "^WORK\\s+(\\w+)\\s*$")) {
                         Matcher matcher=getMatcher(input, "^WORK\\s+(\\w+)\\s*$");
                         if(matcher.matches()) {
@@ -92,7 +98,12 @@ public class Inputs {
                         }
                     } else if (patternMatcher(input, "^TRUCK\\s+GO\\s*$")) {
                         manager.truckGo();
-                    }
+                    }else if (patternMatcher(input, "^INQUIRY\\s*$")) {
+                        manager.inquiry();
+                    } else if (patternMatcher(input, "^LOGOUT\\s*$")) {
+                        manager.logout();
+                    }else
+                        System.out.println("INVALID COMMANDS!!");
                     manager.updateGame();
                 }
         }

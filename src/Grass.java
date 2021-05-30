@@ -5,4 +5,8 @@ public class Grass {
         point.setX(x);
         point.setY(y);
     }
+
+    public Point getPoint() {
+        return point;
+    }
 }

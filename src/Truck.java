@@ -16,13 +16,24 @@ public class Truck {
     public void updateCapacity(Product product){
         if(product.getCapacity()<=this.capacity){
             products.add(product);
+            capacity-=product.getCapacity();
         }
     }
     public void updateCapacity(Animal animal){
         if(animal.getCapacity()<=this.capacity){
             animals.add(animal);
+            capacity-=animal.getCapacity();
         }
     }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
     public ArrayList<Animal> getAnimals() {
         return animals;
     }

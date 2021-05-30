@@ -4,7 +4,7 @@ public class Product {
     private int price;
     private int timeToDestroy;
     private String name;
-    public Point point;
+    private Point point;
     private int capacity;
 
     public Product(String name,int capacity,int price,int timeToDestroy){
@@ -19,6 +19,18 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
     }
 
     public int getCapacity() {

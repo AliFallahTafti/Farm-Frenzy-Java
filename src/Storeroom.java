@@ -2,12 +2,11 @@ import java.util.ArrayList;
 
 public class Storeroom {
     private int capacity;
-    private int maxCapacity=30;
     private ArrayList<Product>products;
     private ArrayList<Animal>animals;
 
     public Storeroom(){
-        this.capacity=0;
+        this.capacity=30;
         animals=new ArrayList<>();
         products=new ArrayList<>();
     }
@@ -23,11 +22,6 @@ public class Storeroom {
     public int getCapacity() {
         return capacity;
     }
-
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }

@@ -1,0 +1,78 @@
+[
+  {
+    "coin": 500,
+    "time": 20,
+    "level": 1,
+    "wildAnimals": {
+      "BEAR": 4
+    },
+    "productTasks": {
+      "EGG": 6
+    },
+    "animalTask": {},
+    "stars": 100
+  },
+  {
+    "coin": 150,
+    "time": 20,
+    "level": 2,
+    "wildAnimals": {
+      "BEAR": 4
+    },
+    "productTasks": {
+      "EGG": 2
+    },
+    "animalTask": {
+      "CHICKEN": 2
+    },
+    "stars": 100
+  },
+  {
+    "coin": 200,
+    "time": 30,
+    "level": 3,
+    "wildAnimals": {
+      "BEAR": 2,
+      "TIGER": 4,
+      "LION": 8
+    },
+    "productTasks": {
+      "EGGPOWDER": 2
+    },
+    "animalTask": {},
+    "stars": 100
+  },
+  {
+    "coin": 400,
+    "time": 40,
+    "level": 4,
+    "wildAnimals": {
+      "BEAR": 4,
+      "TIGER": 10,
+      "LION": 12
+    },
+    "productTasks": {
+      "EGGPOWDER": 4
+    },
+    "animalTask": {
+      "CHICKEN": 4
+    },
+    "stars": 100
+  },
+  {
+    "coin": 100,
+    "time": 40,
+    "level": 5,
+    "wildAnimals": {
+      "BEAR": 2,
+      "TIGER": 12,
+      "LION": 8
+    },
+    "productTasks": {
+      "BREAD": 3,
+      "EGGPOWDER": 3
+    },
+    "animalTask": {},
+    "stars": 100
+  }
+]

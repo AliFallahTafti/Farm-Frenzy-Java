@@ -13,4 +13,23 @@ public class WaterSupplying {
         }else
             System.out.println("THE WELL ISN'T EMPTY");
     }
+    public void unFill(){
+        --this.capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getTimeToFill() {
+        return timeToFill;
+    }
+
+    public void setTimeToFill(int timeToFill) {
+        this.timeToFill = timeToFill;
+    }
 }
