@@ -123,6 +123,7 @@ public class Manager {
             this.timeIndex=0;
             this.grasses=new ArrayList<>();
             this.storeroom=new Storeroom();
+            this.waterSupplying=new WaterSupplying();
             this.products=new ArrayList<>();
             this.screen=new int[6][6];
             this.truck=new Truck();
