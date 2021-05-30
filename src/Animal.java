@@ -8,9 +8,7 @@ public class Animal {
     private int health;
 
     public Animal(String name,int capacity){
-        Random random=new Random();
-        this.point.setX(random.nextInt(6));
-        this.point.setY(random.nextInt(6));
+        this.point=new Point();
         this.name=name;
         this.capacity=capacity;
     }

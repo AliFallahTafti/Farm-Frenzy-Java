@@ -137,6 +137,7 @@ public class Manager {
                 storeroom.getAnimals().add(chicken);
                 this.user.setCoins(this.user.getCoins()-chicken.getPrice());
                 updateMission(chicken);
+                System.out.println("YOU BUY A CHICKEN!");
             }
         }else if(name.equals("TURKEY")){
             Turkey turkey=new Turkey();

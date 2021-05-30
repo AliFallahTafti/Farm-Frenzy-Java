@@ -1,7 +1,14 @@
+import java.util.Random;
+
 public class Point {
     private int x;
     private int y;
 
+    public Point(){
+        Random random=new Random();
+        this.x=random.nextInt(6);
+        this.x=random.nextInt(6);
+    }
     public String  print(){
         return "["+x+" "+y+"]";
     }

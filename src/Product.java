@@ -8,9 +8,7 @@ public class Product {
     private int capacity;
 
     public Product(String name,int capacity,int price,int timeToDestroy){
-        Random random=new Random();
-        this.point.setX(random.nextInt(6));
-        this.point.setY(random.nextInt(6));
+        this.point=new Point();
         this.name=name;
         this.capacity=capacity;
         this.timeToDestroy=timeToDestroy;
