@@ -31,6 +31,7 @@ public class Manager {
         this.missions=new ArrayList<>();
         this.grasses=new ArrayList<>();
         this.storeroom=new Storeroom();
+        this.waterSupplying=new WaterSupplying();
         this.products=new ArrayList<>();
         this.screen=new int[6][6];
         this.truck=new Truck();
@@ -138,7 +139,8 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-chicken.getPrice());
                 updateMission(chicken);
                 System.out.println("YOU BUY A CHICKEN!");
-            }
+            }else
+                System.out.println("NO ENOUGH MONEY!");
         }else if(name.equals("TURKEY")){
             Turkey turkey=new Turkey();
             if(this.user.getCoins()>=turkey.getPrice()) {
@@ -147,7 +149,8 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-turkey.getPrice());
                 updateMission(turkey);
                 System.out.println("YOU BUY A TURKEY!");
-            }
+            }else
+                System.out.println("NO ENOUGH MONEY!");
         }else if(name.equals("BUFFALO")){
             Buffalo buffalo=new Buffalo();
             if(this.user.getCoins()>=buffalo.getPrice()) {
@@ -156,7 +159,8 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-buffalo.getPrice());
                 updateMission(buffalo);
                 System.out.println("YOU BUY A BUFFALO!");
-            }
+            }else
+                System.out.println("NO ENOUGH MONEY!");
         }else if(name.equals("CAT")){
             Cat cat=new Cat();
             if(this.user.getCoins()>=cat.getPrice()) {
@@ -165,7 +169,8 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-cat.getPrice());
                 updateMission(cat);
                 System.out.println("YOU BUY A CAT!");
-            }
+            }else
+                System.out.println("NO ENOUGH MONEY!");
         }else if(name.equals("DOG")){
             Dog dog=new Dog();
             if(this.user.getCoins()>=dog.getPrice()) {
@@ -174,7 +179,8 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-dog.getPrice());
                 updateMission(dog);
                 System.out.println("YOU BUY A DOG!");
-            }
+            }else
+                System.out.println("NO ENOUGH MONEY!");
         }else
             System.out.println("THERE ISN'T ANY ANIMAL WITH NAME :"+name);
     }
@@ -226,6 +232,7 @@ public class Manager {
 //            updateGame();
 //        }
         System.out.println("TIME :"+timeIndex);
+        screen=new int[6][6];
         for (int i = 0; i < 6; i++) {
             for (int i1 = 0; i1 < 6; i1++) {
                 for (int j = 0; j < grasses.size(); j++) {
@@ -262,6 +269,7 @@ public class Manager {
     }
     public void inquiry(){
         System.out.println("TIME :"+timeIndex);
+        screen=new int[6][6];
         for (int i = 0; i < 6; i++) {
             for (int i1 = 0; i1 < 6; i1++) {
                 for (int j = 0; j < grasses.size(); j++) {
@@ -368,6 +376,9 @@ public class Manager {
             prim=mission.productTasks.get(product.getName());
             mission.productTasks.put(product.getName(),prim-1);
         }
+    }
+    public void updateAnimals(){
+
     }
     public int checkStatus(){
         if(this.user.getCoins()==0&&this.storeroom.getCapacity()==30&&this.animals.isEmpty()&&this.products.isEmpty()) {
