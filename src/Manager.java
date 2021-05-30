@@ -35,6 +35,7 @@ public class Manager {
         this.screen=new int[6][6];
         this.truck=new Truck();
         this.loginStatus=1;
+        this.timeIndex=0;
     }
 
 
@@ -112,18 +113,21 @@ public class Manager {
     public void start(int level) throws CloneNotSupportedException {
         loadMissions();
         if(user.getLevel()>=level) {
+            System.out.println("LEVEL:"+level);
             this.mission= (Mission) missions.get(level-1).clone();
             this.user.setCoins(mission.coin);
             this.user.setLevel(mission.level);
             this.loginStatus = 0;
             this.gameStatus=1;
+            this.timeIndex=0;
             this.grasses=new ArrayList<>();
             this.storeroom=new Storeroom();
             this.products=new ArrayList<>();
             this.screen=new int[6][6];
             this.truck=new Truck();
             this.animals=new ArrayList<>();
-        }
+        }else
+            System.out.println("PREVIOUS LEVELS AREN'T DONE!");
     }
     public void buy(String name){
         if(name.equals("CHICKEN")){
@@ -350,12 +354,14 @@ public class Manager {
             return 0;
         }
         boolean found=false;
-        for (int i = 0; i < mission.animalTask.size(); i++) {
-            if(mission.animalTask.get(i)!=0)
+        Set<String> productKeys=mission.productTasks.keySet();
+        Set<String >animalKeys=mission.animalTask.keySet();
+        for(String productKey: productKeys){
+            if(mission.productTasks.get(productKey)!=0)
                 found=true;
         }
-        for (int i = 0; i < mission.productTasks.size(); i++) {
-            if(mission.productTasks.get(i)!=0)
+        for(String animalKey: animalKeys){
+            if(mission.animalTask.get(animalKey)!=0)
                 found=true;
         }
         if (!found){
