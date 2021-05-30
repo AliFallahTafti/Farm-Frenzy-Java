@@ -6,8 +6,8 @@ public class Point {
 
     public Point(){
         Random random=new Random();
-        this.x=random.nextInt(6);
-        this.x=random.nextInt(6);
+        this.x=random.nextInt(6)+1;
+        this.x=random.nextInt(6)+1;
     }
     public String  print(){
         return "["+x+" "+y+"]";

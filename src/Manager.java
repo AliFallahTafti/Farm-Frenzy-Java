@@ -146,6 +146,7 @@ public class Manager {
                 storeroom.getAnimals().add(turkey);
                 this.user.setCoins(this.user.getCoins()-turkey.getPrice());
                 updateMission(turkey);
+                System.out.println("YOU BUY A TURKEY!");
             }
         }else if(name.equals("BUFFALO")){
             Buffalo buffalo=new Buffalo();
@@ -154,6 +155,7 @@ public class Manager {
                 storeroom.getAnimals().add(buffalo);
                 this.user.setCoins(this.user.getCoins()-buffalo.getPrice());
                 updateMission(buffalo);
+                System.out.println("YOU BUY A BUFFALO!");
             }
         }else if(name.equals("CAT")){
             Cat cat=new Cat();
@@ -162,6 +164,7 @@ public class Manager {
                 storeroom.getAnimals().add(cat);
                 this.user.setCoins(this.user.getCoins()-cat.getPrice());
                 updateMission(cat);
+                System.out.println("YOU BUY A CAT!");
             }
         }else if(name.equals("DOG")){
             Dog dog=new Dog();
@@ -170,6 +173,7 @@ public class Manager {
                 storeroom.getAnimals().add(dog);
                 this.user.setCoins(this.user.getCoins()-dog.getPrice());
                 updateMission(dog);
+                System.out.println("YOU BUY A DOG!");
             }
         }else
             System.out.println("THERE ISN'T ANY ANIMAL WITH NAME :"+name);
@@ -221,7 +225,7 @@ public class Manager {
 //        for (int i = 0; i < n; i++) {
 //            updateGame();
 //        }
-        System.out.println(timeIndex);
+        System.out.println("TIME :"+timeIndex);
         for (int i = 0; i < 6; i++) {
             for (int i1 = 0; i1 < 6; i1++) {
                 for (int j = 0; j < grasses.size(); j++) {
@@ -231,14 +235,22 @@ public class Manager {
                 }
             }
         }
-        System.out.println(Arrays.toString(screen));
+        System.out.println("GRASSES:");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                System.out.print(screen[i][j]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("ANIMALS AND PRODUCTS:");
         for (int i = 0; i < animals.size(); i++) {
             System.out.print(animals.get(i).getName());
-            System.out.print(" "+animals.get(i).getHealth()+" "+animals.get(i).getPoint().print()+"\n");
+            System.out.print(" "+animals.get(i).getHealth()+"% "+animals.get(i).getPoint().print()+"\n");
         }
         for (int i = 0; i < products.size(); i++) {
             System.out.print(products.get(i).getName()+" "+products.get(i).getPoint().print());
         }
+        System.out.println("MISSIONS:");
         Set<String> productKeys=mission.productTasks.keySet();
         Set<String >animalKeys=mission.animalTask.keySet();
         for(String productKey: productKeys){
@@ -249,7 +261,7 @@ public class Manager {
         }
     }
     public void inquiry(){
-        System.out.println(timeIndex);
+        System.out.println("TIME :"+timeIndex);
         for (int i = 0; i < 6; i++) {
             for (int i1 = 0; i1 < 6; i1++) {
                 for (int j = 0; j < grasses.size(); j++) {
@@ -259,21 +271,29 @@ public class Manager {
                 }
             }
         }
-        System.out.println(Arrays.toString(screen));
+        System.out.println("GRASSES:");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                System.out.print(screen[i][j]+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("ANIMALS AND PRODUCTS:");
         for (int i = 0; i < animals.size(); i++) {
             System.out.print(animals.get(i).getName());
-            System.out.print(" "+animals.get(i).getHealth()+" "+animals.get(i).getPoint().print()+"\n");
+            System.out.print(" "+animals.get(i).getHealth()+"% "+animals.get(i).getPoint().print()+"\n");
         }
         for (int i = 0; i < products.size(); i++) {
             System.out.print(products.get(i).getName()+" "+products.get(i).getPoint().print());
         }
+        System.out.println("MISSIONS:");
         Set<String> productKeys=mission.productTasks.keySet();
         Set<String >animalKeys=mission.animalTask.keySet();
         for(String productKey: productKeys){
-            System.out.println(productKey+" "+mission.productTasks.get(productKey)+"/"+missions.get(user.getLevel()).productTasks.get(productKey));
+            System.out.println(productKey+" "+mission.productTasks.get(productKey)+"/"+missions.get(user.getLevel()-1).productTasks.get(productKey));
         }
         for(String animalKey: animalKeys){
-            System.out.println(animalKey+" "+mission.animalTask.get(animalKey)+"/"+missions.get(user.getLevel()).animalTask.get(animalKey));
+            System.out.println(animalKey+" "+mission.animalTask.get(animalKey)+"/"+missions.get(user.getLevel()-1).animalTask.get(animalKey));
         }
     }
     public void load(String name){
@@ -383,11 +403,9 @@ public class Manager {
             System.out.println("VICTORY!");
     }
     public void updateGame(){
-        while (this.gameStatus==1) {
-            //todo
-            checkStatus();
-            ++this.timeIndex;
-        }
+        //todo
+        checkStatus();
+        ++this.timeIndex;
         printStatus();
     }
 
