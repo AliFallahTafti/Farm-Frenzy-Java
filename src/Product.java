@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Product {
+
     private int price;
     private int timeToDestroy;
     private String name;
@@ -8,6 +9,7 @@ public class Product {
     private int capacity;
 
     public Product(String name,int capacity,int price,int timeToDestroy){
+
         this.point=new Point();
         this.name=name;
         this.capacity=capacity;

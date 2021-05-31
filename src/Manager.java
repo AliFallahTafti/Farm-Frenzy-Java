@@ -1,14 +1,15 @@
-import jdk.nashorn.internal.runtime.JSONFunctions;
+//import jdk.nashorn.internal.runtime.JSONFunctions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import javax.jws.soap.SOAPBinding;
+//import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Manager {
+
     private User user;
     private Mission mission;
     private Storeroom storeroom;
@@ -26,17 +27,17 @@ public class Manager {
 
 
     public Manager(){
-        this.users=new ArrayList<>();
-        this.animals=new ArrayList<>();
-        this.missions=new ArrayList<>();
-        this.grasses=new ArrayList<>();
-        this.storeroom=new Storeroom();
-        this.waterSupplying=new WaterSupplying();
+        this.users = new ArrayList<>();
+        this.animals = new ArrayList<>();
+        this.missions = new ArrayList<>();
+        this.grasses = new ArrayList<>();
+        this.storeroom = new Storeroom();
+        this.waterSupplying = new WaterSupplying();
         this.products=new ArrayList<>();
-        this.screen=new int[6][6];
-        this.truck=new Truck();
-        this.loginStatus=1;
-        this.timeIndex=0;
+        this.screen = new int[6][6];
+        this.truck = new Truck();
+        this.loginStatus = 1;
+        this.timeIndex = 0;
     }
 
 
@@ -119,15 +120,15 @@ public class Manager {
             this.user.setCoins(mission.coin);
             this.user.setLevel(mission.level);
             this.loginStatus = 0;
-            this.gameStatus=1;
-            this.timeIndex=0;
-            this.grasses=new ArrayList<>();
-            this.storeroom=new Storeroom();
-            this.waterSupplying=new WaterSupplying();
-            this.products=new ArrayList<>();
-            this.screen=new int[6][6];
-            this.truck=new Truck();
-            this.animals=new ArrayList<>();
+            this.gameStatus = 1;
+            this.timeIndex = 0;
+            this.grasses = new ArrayList<>();
+            this.storeroom = new Storeroom();
+            this.waterSupplying = new WaterSupplying();
+            this.products = new ArrayList<>();
+            this.screen = new int[6][6];
+            this.truck = new Truck();
+            this.animals = new ArrayList<>();
         }else
             System.out.println("PREVIOUS LEVELS AREN'T DONE!");
     }
@@ -423,6 +424,7 @@ public class Manager {
 
 
     public void saveUsers(){
+
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         Gson gson = builder.create();
