@@ -7,15 +7,11 @@ public class WaterSupplying {
         this.capacity=5;
         this.timeToFill=3;
     }
-    public void fill(Logger logger){
+    public void fill(){
         if(this.capacity==0){
             this.capacity=5;
-            System.out.println("THE WELL IS FILLED!");
-            logger.printInfo("THE WELL IS FILLED!");
-        }else {
-            System.out.println("THE WELL ISN'T EMPTY!");
-            logger.printError("THE WELL ISN'T EMPTY!");
-        }
+        }else
+            System.out.println("THE WELL ISN'T EMPTY");
     }
     public void unFill(){
         --this.capacity;
