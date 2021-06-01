@@ -14,6 +14,7 @@ public class Manager {
     private Storeroom storeroom;
     private WaterSupplying waterSupplying;
     private Truck truck;
+    private Logger logger;
     private ArrayList<User>users;
     private ArrayList<Animal>animals;
     private ArrayList<Grass>grasses;
@@ -31,6 +32,7 @@ public class Manager {
         this.missions=new ArrayList<>();
         this.grasses=new ArrayList<>();
         this.storeroom=new Storeroom();
+        this.logger=new Logger();
         this.waterSupplying=new WaterSupplying();
         this.products=new ArrayList<>();
         this.screen=new int[6][6];
@@ -60,6 +62,8 @@ public class Manager {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getUsername().equals(username)) {
                     if (users.get(i).getPassword().equals(password)) {
+                        logger.printHeader(users.get(i));
+                        logger.printInfo("LOGIN SUCCESSFULLY!!");
                         System.out.println("LOGIN SUCCESSFULLY!!");
                         this.user = users.get(i);
                         this.loginStatus = 3;
@@ -70,6 +74,8 @@ public class Manager {
                             System.out.println("INCORRECT PASSWORD!!\nENTER YOUR PASSWORD AGAIN:");
                             password = scanner.nextLine();
                         }
+                        logger.printHeader(users.get(i));
+                        logger.printInfo("LOGIN SUCCESSFULLY!!");
                         System.out.println("LOGIN SUCCESSFULLY!!");
                         this.user = users.get(i);
                         this.loginStatus = 3;
@@ -79,6 +85,7 @@ public class Manager {
                 }
             }
         }
+        logger.printError("THERE ISN'T ANY USER WITH USER NAME "+username);
         System.out.println("THERE ISN'T ANY USER WITH USER NAME "+username);
         return 0;
     }
@@ -92,6 +99,7 @@ public class Manager {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getUsername().equals(username)) {
                     System.out.println("ALREADY THERE IS A USER WITH THIS USERNAME!");
+                    logger.printError("ALREADY THERE IS A USER WITH THIS USERNAME!");
                     return 0;
                 }
             }
@@ -99,15 +107,18 @@ public class Manager {
         else{
             users=new ArrayList<>();
         }
-            System.out.println("SIGNUP SUCCESSFULLY!!");
-            loginStatus=3;
-            User user1 = new User(username, password);
-            users.add(user1);
-            this.user = user1;
-            //todo
-            return 1;
+        System.out.println("SIGNUP SUCCESSFULLY!!");
+        loginStatus=3;
+        User user1 = new User(username, password);
+        logger.printHeader(user1);
+        logger.printInfo("SIGNUP SUCCESSFULLY!!");
+        users.add(user1);
+        this.user = user1;
+        //todo
+        return 1;
     }
     public void exit(){
+        logger.printInfo("THE USER EXIT FROM GAME");
         this.loginStatus=2;
         saveUsers();
     }
@@ -115,6 +126,7 @@ public class Manager {
         loadMissions();
         if(user.getLevel()>=level) {
             System.out.println("LEVEL:"+level);
+            logger.printInfo("START LEVEL :"+level);
             this.mission= (Mission) missions.get(level-1).clone();
             this.user.setCoins(mission.coin);
             this.user.setLevel(mission.level);
@@ -128,8 +140,10 @@ public class Manager {
             this.screen=new int[6][6];
             this.truck=new Truck();
             this.animals=new ArrayList<>();
-        }else
+        }else {
+            logger.printAlarm("PREVIOUS LEVELS AREN'T DONE!");
             System.out.println("PREVIOUS LEVELS AREN'T DONE!");
+        }
     }
     public void buy(String name){
         if(name.equals("CHICKEN")){
@@ -140,8 +154,11 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-chicken.getPrice());
                 updateMission(chicken);
                 System.out.println("YOU BUY A CHICKEN!");
-            }else
+                logger.printInfo("YOU BUY A CHICKEN!");
+            }else {
                 System.out.println("NO ENOUGH MONEY!");
+                logger.printError("NO ENOUGH MONEY!");
+            }
         }else if(name.equals("TURKEY")){
             Turkey turkey=new Turkey();
             if(this.user.getCoins()>=turkey.getPrice()) {
@@ -150,8 +167,11 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-turkey.getPrice());
                 updateMission(turkey);
                 System.out.println("YOU BUY A TURKEY!");
-            }else
+                logger.printInfo("YOU BUY A TURKEY!");
+            }else {
                 System.out.println("NO ENOUGH MONEY!");
+                logger.printError("NO ENOUGH MONEY!");
+            }
         }else if(name.equals("BUFFALO")){
             Buffalo buffalo=new Buffalo();
             if(this.user.getCoins()>=buffalo.getPrice()) {
@@ -160,18 +180,24 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-buffalo.getPrice());
                 updateMission(buffalo);
                 System.out.println("YOU BUY A BUFFALO!");
-            }else
+                logger.printInfo("YOU BUY A BUFFALO!");
+            }else {
                 System.out.println("NO ENOUGH MONEY!");
-        }else if(name.equals("CAT")){
-            Cat cat=new Cat();
-            if(this.user.getCoins()>=cat.getPrice()) {
+                logger.printError("NO ENOUGH MONEY!");
+            }
+        }else if(name.equals("CAT")) {
+            Cat cat = new Cat();
+            if (this.user.getCoins() >= cat.getPrice()) {
                 animals.add(cat);
                 storeroom.getAnimals().add(cat);
-                this.user.setCoins(this.user.getCoins()-cat.getPrice());
+                this.user.setCoins(this.user.getCoins() - cat.getPrice());
                 updateMission(cat);
                 System.out.println("YOU BUY A CAT!");
-            }else
+                logger.printInfo("YOU BUY A CAT!");
+            } else{
                 System.out.println("NO ENOUGH MONEY!");
+                logger.printError("NO ENOUGH MONEY!");
+            }
         }else if(name.equals("DOG")){
             Dog dog=new Dog();
             if(this.user.getCoins()>=dog.getPrice()) {
@@ -180,10 +206,15 @@ public class Manager {
                 this.user.setCoins(this.user.getCoins()-dog.getPrice());
                 updateMission(dog);
                 System.out.println("YOU BUY A DOG!");
-            }else
+                logger.printInfo("YOU BUY A DOG!");
+            }else {
                 System.out.println("NO ENOUGH MONEY!");
-        }else
-            System.out.println("THERE ISN'T ANY ANIMAL WITH NAME :"+name);
+                logger.printError("NO ENOUGH MONEY!");
+            }
+        }else {
+            System.out.println("THERE ISN'T ANY ANIMAL WITH NAME :" + name);
+            logger.printAlarm("THERE ISN'T ANY ANIMAL WITH NAME :" + name);
+        }
     }
     public void pickup(int x,int y){
         for (int i = 0; i < products.size(); i++) {
@@ -193,6 +224,7 @@ public class Manager {
                     products.remove(i);
                     storeroom.getProducts().add(products.get(i));
                     storeroom.setCapacity(storeroom.getCapacity() - products.get(i).getCapacity());
+                    logger.printInfo("THE PRODUCT WAS PICKED UP!");
                 }
             }
         }
@@ -202,10 +234,12 @@ public class Manager {
             Grass grass = new Grass(x, y);
             this.grasses.add(grass);
             this.waterSupplying.unFill();
+            System.out.println("YOU PLANT A GRASS!");
+            logger.printInfo("YOU PLANT A GRASS!");
         }
     }
     public void well(){
-        waterSupplying.fill();
+        waterSupplying.fill(logger);
     }
     public void build(String name){
 
@@ -361,6 +395,8 @@ public class Manager {
         truck.getAnimals().clear();
     }
     public void logout(){
+        System.out.println("LOGOUT SUCCESSFULLY!");
+        logger.printInfo("LOGOUT SUCCESSFULLY!");
         saveUsers();
         this.loginStatus=1;
     }
@@ -409,10 +445,14 @@ public class Manager {
         return 1;
     }
     public void printStatus(){
-        if(gameStatus==0)
+        if(gameStatus==0) {
             System.out.println("GAME OVER!");
-        else if(gameStatus==2)
+            logger.printInfo("GAME OVER!");
+        }
+        else if(gameStatus==2) {
             System.out.println("VICTORY!");
+            logger.printInfo("VICTORY!");
+        }
     }
     public void updateGame(){
         //todo

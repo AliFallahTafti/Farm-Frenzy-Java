@@ -34,4 +34,15 @@ public class FileManagement {
         }
         return outPut;
     }
+    public void newLine(String name){
+        try {
+            File file=new File(name);
+            if(!file.exists()) file.createNewFile();
+            FileWriter fileWriter=new FileWriter(name,true);
+            fileWriter.write("\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 }
