@@ -104,7 +104,6 @@ public class Inputs {
                         manager.logout();
                     }else
                         System.out.println("INVALID COMMANDS!!");
-                   // manager.updateGame();
                 }
         }
     }

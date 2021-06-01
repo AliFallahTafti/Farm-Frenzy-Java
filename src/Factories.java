@@ -1,5 +1,9 @@
 public class Factories {
+    private int price;
+    private int timeToProduce;
 
-//    time
-
+    public Factories(int price, int timeToProduce) {
+        this.price = price;
+        this.timeToProduce = timeToProduce;
+    }
 }

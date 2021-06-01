@@ -20,6 +20,7 @@ public class Manager {
     private ArrayList<Grass>grasses;
     private ArrayList<Product>products;
     private ArrayList<Mission>missions;
+    private ArrayList<Factories>factories;
     private int [][] screen;
     private int timeIndex;
     private int loginStatus;  //0login    1logout     2exit      3menu
@@ -31,6 +32,7 @@ public class Manager {
         this.animals=new ArrayList<>();
         this.missions=new ArrayList<>();
         this.grasses=new ArrayList<>();
+        this.factories=new ArrayList<>();
         this.storeroom=new Storeroom();
         this.logger=new Logger();
         this.waterSupplying=new WaterSupplying();
@@ -134,6 +136,7 @@ public class Manager {
             this.gameStatus=1;
             this.timeIndex=0;
             this.grasses=new ArrayList<>();
+            this.factories=new ArrayList<>();
             this.storeroom=new Storeroom();
             this.waterSupplying=new WaterSupplying();
             this.products=new ArrayList<>();
@@ -263,9 +266,6 @@ public class Manager {
         }
     }
     public void turn(int n){
-//        for (int i = 0; i < n; i++) {
-//            updateGame();
-//        }
         System.out.println("TIME :"+timeIndex);
         screen=new int[6][6];
         for (int i = 0; i < 6; i++) {
@@ -457,7 +457,6 @@ public class Manager {
     public void updateGame(){
         //todo
         checkStatus();
-        ++this.timeIndex;
         printStatus();
     }
 
