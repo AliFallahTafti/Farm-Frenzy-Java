@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Truck {
+
     private ArrayList<Animal>animals;
     private ArrayList<Product>products;
     private int capacity;

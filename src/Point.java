@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Point {
+
     private int x;
     private int y;
 
@@ -11,7 +12,7 @@ public class Point {
         this.x++;
         this.y++;
     }
-    public String  print(){
+    public String print(){
         return "["+x+" "+y+"]";
     }
     public int getX() {

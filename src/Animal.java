@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Animal {
+
     private Point point;
     private String name;
     private int capacity;
@@ -8,9 +9,10 @@ public class Animal {
     private int health;
 
     public Animal(String name,int capacity){
-        this.point=new Point();
-        this.name=name;
-        this.capacity=capacity;
+
+        this.point = new Point();
+        this.name = name;
+        this.capacity = capacity;
     }
 
     public String getName() {
@@ -40,6 +42,7 @@ public class Animal {
     public Point getPoint() {
         return point;
     }
+
     public void setPoint(Point point) {
         this.point = point;
     }
