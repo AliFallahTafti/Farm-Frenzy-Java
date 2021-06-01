@@ -1,7 +1,5 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.Buffer;
 import java.util.Scanner;
 
 public class FileManagement {
@@ -33,5 +31,17 @@ public class FileManagement {
             System.out.println(e);
         }
         return outPut;
+    }
+    public void newLine(String name){
+        try {
+            File file=new File(name);
+            if(!file.exists()) file.createNewFile();
+            FileWriter fileWriter=new FileWriter(name,true);
+            fileWriter.write("\n");
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
 }
