@@ -3,12 +3,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 //import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
-    public class Manager {
+public class Manager {
 
         private User user;
         private Mission mission;
@@ -281,7 +278,11 @@ import java.util.Set;
 
         timeIndex += n;
         UpdateAnimalsAndTheirProducts(n);
-        UpdateFactoriesAndTheirProducts(n);
+//        UpdateFactoriesAndTheirProducts(n);
+
+//        if(n >= this.waterSupplying.getTimeToFill()){
+//            well();
+//        }
 
         System.out.println("TIME :"+timeIndex);
         screen = new int[6][6];
@@ -323,28 +324,54 @@ import java.util.Set;
 
 //     update animals and their products
 
+    private int k_mod_timeForEgging = 0;
+
     public void UpdateAnimalsAndTheirProducts(int n) {
+
+        int n_n = n;
 
         for (int i = 0; i < animals.size(); ++i) {
 
             if ("CHICKEN".equals(animals.get(i))) {
 
                 if (n >= ((Chicken) animals.get(i)).getTimeForEgging()) {
-                    int k = n;
+
+                    int k = n + k_mod_timeForEgging;
 
                     while (k >= ((Chicken) animals.get(i)).getTimeForEgging()) {
 
                         k -= ((Chicken) animals.get(i)).getTimeForEgging();
-                        Egg egg = ((Chicken) animals.get(i)).getEgg();
+                        Egg egg = new Egg();
                         products.add(egg);
                     }
+
+                    k_mod_timeForEgging = k % ((Chicken) animals.get(i)).getTimeForEgging();
                 }
 
                 int health = animals.get(i).getHealth();
                 health -= n * ((Chicken) animals.get(i)).getHealthReduction();
 
-                if (health > 50) { // or > 0
+                if (health > 0) {
 
+                    if(health > 50) {
+
+                        // wisely walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
+
+                    else {
+
+                        // random walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
                 }
 
                 else animals.remove(i);
@@ -353,21 +380,43 @@ import java.util.Set;
             else if ("TURKEY".equals(animals.get(i))) {
 
                 if (n >= ((Turkey) animals.get(i)).getTimeForEgging()) {
-                    int k = n;
+
+                    int k = n + k_mod_timeForEgging;
 
                     while (k >= ((Turkey) animals.get(i)).getTimeForEgging()) {
 
                         k -= ((Turkey) animals.get(i)).getTimeForEgging();
-                        Feather feather = ((Turkey)animals.get(i)).getFeather();
+                        Feather feather = new Feather();
                         products.add(feather);
                     }
+
+                    k_mod_timeForEgging = k % ((Turkey) animals.get(i)).getTimeForEgging();
                 }
 
                 int health = animals.get(i).getHealth();
                 health -= n * ((Turkey) animals.get(i)).getHealthReduction();
 
-                if (health > 50) { // or > 0
+                if (health > 0) {
 
+                    if(health > 50){
+
+                        // wisely walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
+
+                    else {
+
+                        // random walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
                 }
 
                 else animals.remove(i);
@@ -377,21 +426,73 @@ import java.util.Set;
             else if ("BUFFALO".equals(animals.get(i))) {
 
                 if (n >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
-                    int k = n;
+
+                    int k = n + k_mod_timeForEgging;
 
                     while (k >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
 
                         k -= ((Buffalo) animals.get(i)).getTimeForEgging();
-                        Milk milk = ((Buffalo)animals.get(i)).getMilk();
+                        Milk milk = new Milk();
                         products.add(milk);
                     }
+
+                    k_mod_timeForEgging = k % ((Buffalo) animals.get(i)).getTimeForEgging();
                 }
 
                 int health = animals.get(i).getHealth();
-                health -= n * ((Chicken) animals.get(i)).getHealthReduction();
+                health -= n * ((Buffalo) animals.get(i)).getHealthReduction();
 
-                if (health > 50) { // > 0
+                if (health > 0) {
 
+                    if (health > 50) {
+
+                        // wisely walk
+                        while (n_n > 0) {
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    } else {
+
+                        // random walk
+                        while (n_n > 0) {
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
+                }
+
+                else animals.remove(i);
+            }
+
+            else if("DOG".equals(animals.get(i))){
+
+                int health = animals.get(i).getHealth();
+
+                if(health > 0) {
+
+                    while(n_n > 0) {
+
+                        RandomWalk(animals.get(i));
+                        n_n--;
+                    }
+                }
+
+                else animals.remove(i);
+            }
+
+            else if("CAT".equals(animals.get(i))){
+
+                int health = animals.get(i).getHealth();
+
+                if(health > 0) {
+
+                    while(n_n > 0) {
+
+                        RandomWalk(animals.get(i));
+                        n_n--;
+                    }
                 }
 
                 else animals.remove(i);
@@ -399,65 +500,234 @@ import java.util.Set;
         }
     }
 
-    // update factories and their products
+    public void RandomWalk(Animal animal) {
 
-    public void UpdateFactoriesAndTheirProducts(int n) {
+        Point point = animal.getPoint();
+        int max, min, random, x, y;
 
-        for (int i = 0; i < factories.size(); i++) {
+        if (point.getX() > 0 && point.getX() < 5 && point.getY() > 0 && point.getY() < 5) {
 
-            if(n >= factories.get(i).getTimeToProduce()) {
+            max = 4;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
 
-//                factories.get(i)
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 3: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+
+                case 4: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getX() == 0 && point.getY() > 0 && point.getY() < 5) {
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 3: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getX() == 5 && point.getY() > 0 && point.getY() < 5) {
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 3: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 5 && point.getX() > 0 && point.getX() < 5){
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+
+                case 3: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
             }
 
-
         }
-//            switch (factories.get(i).getClass()){
-//
-//                case EggPowder:
-//
-//                    if(n >= EggPowder.timeToProduce){
-//
-//                    }
-//                    break;
-//
-//                case Weaving:
-//
-//                    if(n >= Weaving.timeToProduce){
-//
-//                    }
-//                    break;
-//
-//                case MilkPacking:
-//
-//                    if(n >= MilkPacking.timeToProduce){
-//
-//                    }
-//                    break;
-//
-//                case Bakery:
-//
-//                    if(n >= Bakery.timeToProduce){
-//
-//                    }
-//                    break;
-//
-//                case Sewing:
-//
-//                    if(n >= Sewing.timeToProduce){
-//
-//                    }
-//                    break;
-//
-//                case IceCreamFactory:
-//
-//                    if(n >= IceCreamFactory.timeToProduce){
-//
-//                    }
-//                    break;
-//        }
+
+        else if (point.getY() == 0 && point.getX() > 0 && point.getX() < 5){
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+
+                case 3: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 0 && point.getX() == 0){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 0 && point.getX() == 5){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 2: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 5 && point.getX() == 0){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 5 && point.getX() == 5){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+            }
+        }
     }
 
+    // update factories and their products
+
+//    public void UpdateFactoriesAndTheirProducts(int n) {
+//
+//        for (int i = 0; i < factories.size(); i++) {
+//
+//            if(n >= factories.get(i).getTimeToProduce()) {
+//
+////                factories.get(i)
+//            }
+//        }
 
 
     public void inquiry(){

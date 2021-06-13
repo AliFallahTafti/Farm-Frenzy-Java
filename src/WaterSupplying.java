@@ -1,7 +1,7 @@
 public class WaterSupplying {
+
     private int capacity;
     private int timeToFill;
-
 
     public WaterSupplying(){
         this.capacity=5;
