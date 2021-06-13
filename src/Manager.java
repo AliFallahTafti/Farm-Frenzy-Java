@@ -332,7 +332,7 @@ public class Manager {
 
         for (int i = 0; i < animals.size(); ++i) {
 
-            if ("CHICKEN".equals(animals.get(i))) {
+            if ("CHICKEN".equals(animals.get(i).getName())) {
 
                 if (n >= ((Chicken) animals.get(i)).getTimeForEgging()) {
 
@@ -370,14 +370,23 @@ public class Manager {
 
                             RandomWalk(animals.get(i));
                             n_n--;
+
+                            for (Grass grass : grasses) {
+
+                                if(grass.getPoint().equals(animals.get(i).getPoint())) {
+
+                                    grasses.remove(grass);
+                                    animals.get(i).setHealth(100);
+                                }
+                            }
                         }
                     }
                 }
 
-                else animals.remove(i);
+                else animals.remove(animals.get(i));
             }
 
-            else if ("TURKEY".equals(animals.get(i))) {
+            else if ("TURKEY".equals(animals.get(i).getName())) {
 
                 if (n >= ((Turkey) animals.get(i)).getTimeForEgging()) {
 
@@ -415,15 +424,24 @@ public class Manager {
 
                             RandomWalk(animals.get(i));
                             n_n--;
+
+
+                            for (Grass grass : grasses) {
+
+                                if(grass.getPoint().equals(animals.get(i).getPoint())) {
+
+                                    grasses.remove(grass);
+                                    animals.get(i).setHealth(100);
+                                }
+                            }
                         }
                     }
                 }
 
-                else animals.remove(i);
-
+                else animals.remove(animals.get(i));
             }
 
-            else if ("BUFFALO".equals(animals.get(i))) {
+            else if ("BUFFALO".equals(animals.get(i).getName())) {
 
                 if (n >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
 
@@ -452,21 +470,33 @@ public class Manager {
                             RandomWalk(animals.get(i));
                             n_n--;
                         }
-                    } else {
+                    }
+
+                    else {
 
                         // random walk
                         while (n_n > 0) {
 
                             RandomWalk(animals.get(i));
                             n_n--;
+
+
+                            for (Grass grass : grasses) {
+
+                                if(grass.getPoint().equals(animals.get(i).getPoint())) {
+
+                                    grasses.remove(grass);
+                                    animals.get(i).setHealth(100);
+                                }
+                            }
                         }
                     }
                 }
 
-                else animals.remove(i);
+                else animals.remove(animals.get(i));
             }
 
-            else if("DOG".equals(animals.get(i))){
+            else if("DOG".equals(animals.get(i).getName())){
 
                 int health = animals.get(i).getHealth();
 
@@ -476,13 +506,25 @@ public class Manager {
 
                         RandomWalk(animals.get(i));
                         n_n--;
+
+                        for (Animal animal : animals) {
+
+                            if(animal.getName().equals("LION") || animal.getName().equals("BEAR") || animal.getName().equals("TIGER")) {
+
+                                if(animal.getPoint().equals(animals.get(i).getPoint())) {
+
+                                    animals.remove(i);
+                                    animals.remove(animal);
+                                }
+                            }
+                        }
                     }
                 }
 
-                else animals.remove(i);
+                else animals.remove(animals.get(i));
             }
 
-            else if("CAT".equals(animals.get(i))){
+            else if("CAT".equals(animals.get(i).getName())){
 
                 int health = animals.get(i).getHealth();
 
@@ -492,10 +534,82 @@ public class Manager {
 
                         RandomWalk(animals.get(i));
                         n_n--;
+
+                        for (Product product : products) {
+
+                            if(product.getPoint().equals(animals.get(i).getPoint())){
+
+                                // product should go to store room
+                            }
+                        }
                     }
                 }
 
-                else animals.remove(i);
+                else animals.remove(animals.get(i));
+            }
+
+            ///////////////////////////////////////////////////////////////// wild animals
+
+            else if("LION".equals(animals.get(i).getName())){
+
+                while(n_n > 0){
+
+                    RandomWalk(animals.get(i));
+                    n_n--;
+
+                    for (Animal animal : animals) {
+
+                        if(animal.getName().equals("CHICKEN") || animal.getName().equals("TURKEY") || animal.getName().equals("BUFFALO")){
+
+                            if(animal.getPoint().equals(animals.get(i).getPoint())) {
+
+                                animals.remove(animal);
+                            }
+                        }
+                    }
+                }
+            }
+
+            else if("BEAR".equals(animals.get(i).getName())) {
+
+                while(n_n > 0){
+
+                    RandomWalk(animals.get(i));
+                    n_n--;
+
+                    for (Animal animal : animals) {
+
+                        if (animal.getName().equals("CHICKEN") || animal.getName().equals("TURKEY") || animal.getName().equals("BUFFALO")) {
+
+                            if (animal.getPoint().equals(animals.get(i).getPoint())) {
+
+                                animals.remove(animal);
+                            }
+                        }
+                    }
+                }
+            }
+
+            else if("TIGER".equals(animals.get(i).getName())){
+
+                while(n_n > 0){
+
+                    // random walk twice
+                    RandomWalk(animals.get(i));
+                    RandomWalk(animals.get(i));
+                    n_n--;
+
+                    for (Animal animal : animals) {
+
+                        if (animal.getName().equals("CHICKEN") || animal.getName().equals("TURKEY") || animal.getName().equals("BUFFALO")) {
+
+                            if (animal.getPoint().equals(animals.get(i).getPoint())) {
+
+                                animals.remove(animal);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
