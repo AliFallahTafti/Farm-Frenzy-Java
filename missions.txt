@@ -37,7 +37,7 @@
       "LION": 8
     },
     "productTasks": {
-      "EGGPOWDER": 2
+      "POWDER": 2
     },
     "animalTask": {},
     "stars": 100
@@ -52,7 +52,7 @@
       "LION": 12
     },
     "productTasks": {
-      "EGGPOWDER": 4
+      "POWDER": 4
     },
     "animalTask": {
       "CHICKEN": 4
@@ -70,7 +70,7 @@
     },
     "productTasks": {
       "BREAD": 3,
-      "EGGPOWDER": 3
+      "POWDER": 3
     },
     "animalTask": {},
     "stars": 100

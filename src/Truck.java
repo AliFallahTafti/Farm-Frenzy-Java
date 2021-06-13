@@ -5,11 +5,13 @@ public class Truck {
     private ArrayList<Animal>animals;
     private ArrayList<Product>products;
     private int capacity;
+    private int timeToOrder;
     private int timeToGo;
 
     public Truck(){
         this.capacity=15;
         this.timeToGo=10;
+        this.timeToOrder=-1;
         animals=new ArrayList<>();
         products=new ArrayList<>();
     }
@@ -41,5 +43,17 @@ public class Truck {
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+    public int getTimeToOrder() {
+        return timeToOrder;
+    }
+
+    public void setTimeToOrder(int timeToOrder) {
+        this.timeToOrder = timeToOrder;
+    }
+
+    public int getTimeToGo() {
+        return timeToGo;
     }
 }
