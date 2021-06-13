@@ -257,7 +257,6 @@ import java.util.Set;
     public void well(){
         waterSupplying.setTimeToOrder(timeIndex,logger);
     }
-
     public void build(String name){
         if(name.equals("BAKERY")){
             Bakery bakery=new Bakery();
@@ -430,14 +429,19 @@ import java.util.Set;
 
 //     update animals and their products
 
+    private int k_mod_timeForEgging = 0;
+
     public void UpdateAnimalsAndTheirProducts(int n) {
+
+        int n_n = n;
 
         for (int i = 0; i < animals.size(); ++i) {
 
             if ("CHICKEN".equals(animals.get(i))) {
 
                 if (n >= ((Chicken) animals.get(i)).getTimeForEgging()) {
-                    int k = n;
+
+                    int k = n + k_mod_timeForEgging;
 
                     while (k >= ((Chicken) animals.get(i)).getTimeForEgging()) {
 
@@ -445,13 +449,34 @@ import java.util.Set;
                         Egg egg = new Egg(timeIndex);
                         products.add(egg);
                     }
+
+                    k_mod_timeForEgging = k % ((Chicken) animals.get(i)).getTimeForEgging();
                 }
 
                 int health = animals.get(i).getHealth();
                 health -= n * ((Chicken) animals.get(i)).getHealthReduction();
 
-                if (health > 50) { // or > 0
+                if (health > 0) {
 
+                    if(health > 50) {
+
+                        // wisely walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
+
+                    else {
+
+                        // random walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
                 }
 
                 else animals.remove(i);
@@ -460,7 +485,8 @@ import java.util.Set;
             else if ("TURKEY".equals(animals.get(i))) {
 
                 if (n >= ((Turkey) animals.get(i)).getTimeForEgging()) {
-                    int k = n;
+
+                    int k = n + k_mod_timeForEgging;
 
                     while (k >= ((Turkey) animals.get(i)).getTimeForEgging()) {
 
@@ -473,8 +499,27 @@ import java.util.Set;
                 int health = animals.get(i).getHealth();
                 health -= n * ((Turkey) animals.get(i)).getHealthReduction();
 
-                if (health > 50) { // or > 0
+                if (health > 0) {
 
+                    if(health > 50){
+
+                        // wisely walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
+
+                    else {
+
+                        // random walk
+                        while(n_n > 0){
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
                 }
 
                 else animals.remove(i);
@@ -484,7 +529,8 @@ import java.util.Set;
             else if ("BUFFALO".equals(animals.get(i))) {
 
                 if (n >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
-                    int k = n;
+
+                    int k = n + k_mod_timeForEgging;
 
                     while (k >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
 
@@ -492,16 +538,284 @@ import java.util.Set;
                         Milk milk = new Milk(timeIndex);
                         products.add(milk);
                     }
+
+                    k_mod_timeForEgging = k % ((Buffalo) animals.get(i)).getTimeForEgging();
                 }
 
                 int health = animals.get(i).getHealth();
-                health -= n * ((Chicken) animals.get(i)).getHealthReduction();
+                health -= n * ((Buffalo) animals.get(i)).getHealthReduction();
 
-                if (health > 50) { // > 0
+                if (health > 0) {
 
+                    if (health > 50) {
+
+                        // wisely walk
+                        while (n_n > 0) {
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    } else {
+
+                        // random walk
+                        while (n_n > 0) {
+
+                            RandomWalk(animals.get(i));
+                            n_n--;
+                        }
+                    }
                 }
 
                 else animals.remove(i);
+            }
+
+            else if("DOG".equals(animals.get(i))){
+
+                int health = animals.get(i).getHealth();
+
+                if(health > 0) {
+
+                    while(n_n > 0) {
+
+                        RandomWalk(animals.get(i));
+                        n_n--;
+                    }
+                }
+
+                else animals.remove(i);
+            }
+
+            else if("CAT".equals(animals.get(i))){
+
+                int health = animals.get(i).getHealth();
+
+                if(health > 0) {
+
+                    while(n_n > 0) {
+
+                        RandomWalk(animals.get(i));
+                        n_n--;
+                    }
+                }
+
+                else animals.remove(i);
+            }
+        }
+    }
+
+    public void RandomWalk(Animal animal) {
+
+        Point point = animal.getPoint();
+        int max, min, random, x, y;
+
+        if (point.getX() > 0 && point.getX() < 5 && point.getY() > 0 && point.getY() < 5) {
+
+            max = 4;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 3: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+
+                case 4: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getX() == 0 && point.getY() > 0 && point.getY() < 5) {
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 3: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getX() == 5 && point.getY() > 0 && point.getY() < 5) {
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 3: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 5 && point.getX() > 0 && point.getX() < 5){
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+
+                case 3: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+
+        }
+
+        else if (point.getY() == 0 && point.getX() > 0 && point.getX() < 5){
+
+            max = 3;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+
+                case 3: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 0 && point.getX() == 0){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 0 && point.getX() == 5){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 2: // down
+                    y = point.getY();
+                    point.setX(--y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 5 && point.getX() == 0){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // right
+                    x = point.getX();
+                    point.setX(++x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
+            }
+        }
+
+        else if (point.getY() == 5 && point.getX() == 5){
+
+            max = 2;
+            min = 1;
+            random = (int) Math.floor(Math.random() * (max - min + 1) + min);
+
+            switch (random) {
+
+                case 1: // left
+                    x = point.getX();
+                    point.setX(--x);
+                    break;
+
+                case 2: // up
+                    y = point.getY();
+                    point.setX(++y);
+                    break;
             }
         }
     }
