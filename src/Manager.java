@@ -548,7 +548,7 @@ public class Manager {
                 else animals.remove(animals.get(i));
             }
 
-            //////////////////////////////////////////////////////////////// wild animals ...
+            /////////////////////////////////////////////////////////////// Wild Animals ...
 
             else if("LION".equals(animals.get(i).getName())){
 
