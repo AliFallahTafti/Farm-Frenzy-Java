@@ -1,30 +1,31 @@
-import jdk.nashorn.internal.runtime.JSONFunctions;
+//import jdk.nashorn.internal.runtime.JSONFunctions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import javax.jws.soap.SOAPBinding;
+//import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Manager {
-    private User user;
-    private Mission mission;
-    private Storeroom storeroom;
-    private WaterSupplying waterSupplying;
-    private Truck truck;
-    private Logger logger;
-    private ArrayList<User>users;
-    private ArrayList<Animal>animals;
-    private ArrayList<Grass>grasses;
-    private ArrayList<Product>products;
-    private ArrayList<Mission>missions;
-    private ArrayList<Factories>factories;
-    private int [][] screen;
-    private int timeIndex;
-    private int loginStatus;  //0login    1logout     2exit      3menu
-    private int gameStatus;    //0 GameOver    2Winning     1InGame
+    public class Manager {
+
+        private User user;
+        private Mission mission;
+        private Storeroom storeroom;
+        private WaterSupplying waterSupplying;
+        private Truck truck;
+        private Logger logger;
+        private ArrayList<User>users;
+        private ArrayList<Animal>animals;
+        private ArrayList<Grass>grasses;
+        private ArrayList<Product>products;
+        private ArrayList<Mission>missions;
+        private ArrayList<Factories>factories;
+        private int [][] screen;
+        private int timeIndex;
+        private int loginStatus;  //0login    1logout     2exit      3menu
+        private int gameStatus;    //0 GameOver    2Winning     1InGame
 
 
     public Manager(){
@@ -42,7 +43,6 @@ public class Manager {
         this.loginStatus=1;
         this.timeIndex=0;
     }
-
 
     //getter
     public ArrayList<User> getUsers() {
@@ -71,7 +71,8 @@ public class Manager {
                         this.loginStatus = 3;
                         //todo
                         return 1;
-                    } else {
+                    }
+                    else {
                         while (!users.get(i).getPassword().equals(password)) {
                             System.out.println("INCORRECT PASSWORD!!\nENTER YOUR PASSWORD AGAIN:");
                             password = scanner.nextLine();
@@ -143,7 +144,8 @@ public class Manager {
             this.screen=new int[6][6];
             this.truck=new Truck();
             this.animals=new ArrayList<>();
-        }else {
+        }
+        else {
             logger.printAlarm("PREVIOUS LEVELS AREN'T DONE!");
             System.out.println("PREVIOUS LEVELS AREN'T DONE!");
         }
@@ -158,11 +160,13 @@ public class Manager {
                 updateMission(chicken);
                 System.out.println("YOU BUY A CHICKEN!");
                 logger.printInfo("YOU BUY A CHICKEN!");
-            }else {
+            }
+            else {
                 System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
             }
-        }else if(name.equals("TURKEY")){
+        }
+        else if(name.equals("TURKEY")){
             Turkey turkey=new Turkey();
             if(this.user.getCoins()>=turkey.getPrice()) {
                 animals.add(turkey);
@@ -171,11 +175,13 @@ public class Manager {
                 updateMission(turkey);
                 System.out.println("YOU BUY A TURKEY!");
                 logger.printInfo("YOU BUY A TURKEY!");
-            }else {
+            }
+            else {
                 System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
             }
-        }else if(name.equals("BUFFALO")){
+        }
+        else if(name.equals("BUFFALO")){
             Buffalo buffalo=new Buffalo();
             if(this.user.getCoins()>=buffalo.getPrice()) {
                 animals.add(buffalo);
@@ -184,11 +190,13 @@ public class Manager {
                 updateMission(buffalo);
                 System.out.println("YOU BUY A BUFFALO!");
                 logger.printInfo("YOU BUY A BUFFALO!");
-            }else {
+            }
+            else {
                 System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
             }
-        }else if(name.equals("CAT")) {
+        }
+        else if(name.equals("CAT")) {
             Cat cat = new Cat();
             if (this.user.getCoins() >= cat.getPrice()) {
                 animals.add(cat);
@@ -197,11 +205,13 @@ public class Manager {
                 updateMission(cat);
                 System.out.println("YOU BUY A CAT!");
                 logger.printInfo("YOU BUY A CAT!");
-            } else{
+            }
+            else{
                 System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
             }
-        }else if(name.equals("DOG")){
+        }
+        else if(name.equals("DOG")){
             Dog dog=new Dog();
             if(this.user.getCoins()>=dog.getPrice()) {
                 animals.add(dog);
@@ -210,11 +220,13 @@ public class Manager {
                 updateMission(dog);
                 System.out.println("YOU BUY A DOG!");
                 logger.printInfo("YOU BUY A DOG!");
-            }else {
+            }
+            else {
                 System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
             }
-        }else {
+        }
+        else {
             System.out.println("THERE ISN'T ANY ANIMAL WITH NAME :" + name);
             logger.printAlarm("THERE ISN'T ANY ANIMAL WITH NAME :" + name);
         }
@@ -266,12 +278,17 @@ public class Manager {
         }
     }
     public void turn(int n){
+
+        timeIndex += n;
+        UpdateAnimalsAndTheirProducts(n);
+        UpdateFactoriesAndTheirProducts(n);
+
         System.out.println("TIME :"+timeIndex);
-        screen=new int[6][6];
+        screen = new int[6][6];
         for (int i = 0; i < 6; i++) {
             for (int i1 = 0; i1 < 6; i1++) {
-                for (int j = 0; j < grasses.size(); j++) {
-                    if(i+1==grasses.get(j).getPoint().getX()&&i1+1==grasses.get(j).getPoint().getY()){
+                for (Grass grass : grasses) {
+                    if (i + 1 == grass.getPoint().getX() && i1 + 1 == grass.getPoint().getY()) {
                         screen[i][i1]++;
                     }
                 }
@@ -302,18 +319,141 @@ public class Manager {
             System.out.println(animalKey+" "+mission.animalTask.get(animalKey)+"/"+missions.get(user.getLevel()).animalTask.get(animalKey));
         }
     }
+
+
+    // update animals and their products
+
+    public void UpdateAnimalsAndTheirProducts(int n) {
+
+        for (int i = 0; i < animals.size(); ++i) {
+
+            switch (animals.get(i)) { // or animal.getClass()
+
+                case "CHICKEN":
+
+                    if(n >= ((Chicken)animals.get(i)).timeForEgging) {
+                        int k = n;
+
+                        while (k >= animals.get(i).timeForEgging) {
+                            k -= animals.get(i).timeForEgging;
+                            // egg ++;
+                        }
+                    }
+
+                    animals.get(i).setHealth() -= n * animals.get(i).healthReduction;
+                    if(animals.get(i).setHelth() > ) {
+
+                    }
+                    else animals.remove(i);
+                    break;
+
+                case "TURKEY":
+
+                    if (n >= animals.get(i).timeForEgging) {
+                        int k = n;
+
+                        while (k >= animals.get(i).timeForEgging) {
+                            k -= animals.get(i).timeForEgging;
+                            // feather ++;
+                        }
+                    }
+
+                    animals.get(i).setHealth() -= n * animals.get(i).healthReduction;
+                    if(animals.get(i).setHelth() > ) {
+
+                    }
+                    else animals.remove(i);
+                    break;
+
+                case "BUFFALO":
+
+                    if (n >= animals.get(i).timeForEgging) {
+                        int k = n;
+
+                        while (k >= animals.get(i).timeForEgging) {
+                            k -= animals.get(i).timeForEgging;
+                            // milk ++;
+                        }
+                    }
+
+                    animals.get(i).setHealth() -= n * animals.get(i).healthReduction;
+                    if(animals.get(i).setHelth() > ) {
+
+                    }
+
+                    else animals.remove(i);
+                    break;
+            }
+        }
+    }
+
+    // update factories and their products
+
+    public void UpdateFactoriesAndTheirProducts(int n) {
+
+        for (int i = 0; i < factories.size(); i++) {
+
+            switch (factories.get(i).getClass()){
+
+                case EggPowder:
+
+                    if(n >= EggPowder.timeToProduce){
+
+                    }
+                    break;
+
+                case Weaving:
+
+                    if(n >= Weaving.timeToProduce){
+
+                    }
+                    break;
+
+                case MilkPacking:
+
+                    if(n >= MilkPacking.timeToProduce){
+
+                    }
+                    break;
+
+                case Bakery:
+
+                    if(n >= Bakery.timeToProduce){
+
+                    }
+                    break;
+
+                case Sewing:
+
+                    if(n >= Sewing.timeToProduce){
+
+                    }
+                    break;
+
+                case IceCreamFactory:
+
+                    if(n >= IceCreamFactory.timeToProduce){
+
+                    }
+                    break;
+        }
+    }
+
+
+
     public void inquiry(){
         System.out.println("TIME :"+timeIndex);
         screen=new int[6][6];
         for (int i = 0; i < 6; i++) {
             for (int i1 = 0; i1 < 6; i1++) {
                 for (int j = 0; j < grasses.size(); j++) {
-                    if(i+1==grasses.get(j).getPoint().getX()&&i1+1==grasses.get(j).getPoint().getY()){
+                    if(i+1 == grasses.get(j).getPoint().getX() && i1+1 == grasses.get(j).getPoint().getY()){
                         screen[i][i1]++;
                     }
                 }
             }
         }
+
         System.out.println("GRASSES:");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -377,7 +517,7 @@ public class Manager {
                     truck.getAnimals().remove(i);
                     truck.setCapacity(truck.getCapacity() + truck.getAnimals().get(i).getCapacity());
                     storeroom.getAnimals().add(truck.getAnimals().get(i));
-                    if(name.equals("BEAR")||name.equals("LION")||name.equals("TIGER"))
+                    if(name.equals("BEAR")||name.equals("LION")|| name.equals("TIGER"))
                         storeroom.setCapacity(storeroom.getCapacity() - truck.getAnimals().get(i).getCapacity());
                 }
             }
