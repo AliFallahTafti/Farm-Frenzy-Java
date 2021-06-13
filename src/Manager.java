@@ -321,68 +321,71 @@ import java.util.Set;
     }
 
 
-    // update animals and their products
+//     update animals and their products
 
     public void UpdateAnimalsAndTheirProducts(int n) {
 
         for (int i = 0; i < animals.size(); ++i) {
 
-            switch (animals.get(i)) { // or animal.getClass()
+            if ("CHICKEN".equals(animals.get(i))) {
 
-                case "CHICKEN":
+                if (n >= ((Chicken) animals.get(i)).getTimeForEgging()) {
+                    int k = n;
 
-                    if(n >= ((Chicken)animals.get(i)).timeForEgging) {
-                        int k = n;
-
-                        while (k >= animals.get(i).timeForEgging) {
-                            k -= animals.get(i).timeForEgging;
-                            // egg ++;
-                        }
+                    while (k >= ((Chicken) animals.get(i)).getTimeForEgging()) {
+                        k -= ((Chicken) animals.get(i)).getTimeForEgging();
+                        // egg ++;
                     }
+                }
 
-                    animals.get(i).setHealth() -= n * animals.get(i).healthReduction;
-                    if(animals.get(i).setHelth() > ) {
+                int health = animals.get(i).getHealth();
+                health -= n * ((Chicken) animals.get(i)).getHealthReduction();
 
+                if (health > 50) { // or > 0
+
+                }
+                else animals.remove(i);
+            }
+
+            else if ("TURKEY".equals(animals.get(i))) {
+
+                if (n >= ((Turkey) animals.get(i)).getTimeForEgging()) {
+                    int k = n;
+
+                    while (k >= ((Turkey) animals.get(i)).getTimeForEgging()) {
+                        k -= ((Turkey) animals.get(i)).getTimeForEgging();
+                        // feather ++;
                     }
-                    else animals.remove(i);
-                    break;
+                }
 
-                case "TURKEY":
+                int health = animals.get(i).getHealth();
+                health -= n * ((Turkey) animals.get(i)).getHealthReduction();
 
-                    if (n >= animals.get(i).timeForEgging) {
-                        int k = n;
+                if (health > 50) { // or > 0
 
-                        while (k >= animals.get(i).timeForEgging) {
-                            k -= animals.get(i).timeForEgging;
-                            // feather ++;
-                        }
+                }
+
+                else animals.remove(i);
+
+            }
+
+            else if ("BUFFALO".equals(animals.get(i))) {
+
+                if (n >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
+                    int k = n;
+
+                    while (k >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
+                        k -= ((Buffalo) animals.get(i)).getTimeForEgging();
+                        // milk ++;
                     }
+                }
 
-                    animals.get(i).setHealth() -= n * animals.get(i).healthReduction;
-                    if(animals.get(i).setHelth() > ) {
+                int health = animals.get(i).getHealth();
+                health -= n * ((Chicken) animals.get(i)).getHealthReduction();
 
-                    }
-                    else animals.remove(i);
-                    break;
+                if (health > 50) { // > 0
 
-                case "BUFFALO":
-
-                    if (n >= animals.get(i).timeForEgging) {
-                        int k = n;
-
-                        while (k >= animals.get(i).timeForEgging) {
-                            k -= animals.get(i).timeForEgging;
-                            // milk ++;
-                        }
-                    }
-
-                    animals.get(i).setHealth() -= n * animals.get(i).healthReduction;
-                    if(animals.get(i).setHelth() > ) {
-
-                    }
-
-                    else animals.remove(i);
-                    break;
+                } else animals.remove(i);
             }
         }
     }
@@ -393,50 +396,57 @@ import java.util.Set;
 
         for (int i = 0; i < factories.size(); i++) {
 
-            switch (factories.get(i).getClass()){
+            if(n >= factories.get(i).getTimeToProduce()) {
 
-                case EggPowder:
+//                factories.get(i)
+            }
 
-                    if(n >= EggPowder.timeToProduce){
 
-                    }
-                    break;
-
-                case Weaving:
-
-                    if(n >= Weaving.timeToProduce){
-
-                    }
-                    break;
-
-                case MilkPacking:
-
-                    if(n >= MilkPacking.timeToProduce){
-
-                    }
-                    break;
-
-                case Bakery:
-
-                    if(n >= Bakery.timeToProduce){
-
-                    }
-                    break;
-
-                case Sewing:
-
-                    if(n >= Sewing.timeToProduce){
-
-                    }
-                    break;
-
-                case IceCreamFactory:
-
-                    if(n >= IceCreamFactory.timeToProduce){
-
-                    }
-                    break;
         }
+//            switch (factories.get(i).getClass()){
+//
+//                case EggPowder:
+//
+//                    if(n >= EggPowder.timeToProduce){
+//
+//                    }
+//                    break;
+//
+//                case Weaving:
+//
+//                    if(n >= Weaving.timeToProduce){
+//
+//                    }
+//                    break;
+//
+//                case MilkPacking:
+//
+//                    if(n >= MilkPacking.timeToProduce){
+//
+//                    }
+//                    break;
+//
+//                case Bakery:
+//
+//                    if(n >= Bakery.timeToProduce){
+//
+//                    }
+//                    break;
+//
+//                case Sewing:
+//
+//                    if(n >= Sewing.timeToProduce){
+//
+//                    }
+//                    break;
+//
+//                case IceCreamFactory:
+//
+//                    if(n >= IceCreamFactory.timeToProduce){
+//
+//                    }
+//                    break;
+//        }
     }
 
 

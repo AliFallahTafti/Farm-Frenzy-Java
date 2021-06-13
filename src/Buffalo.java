@@ -6,6 +6,22 @@ public class Buffalo extends Animal{
     private Milk milk;
     private int timeForEgging;
 
+    public int getHealthReduction() {
+        return healthReduction;
+    }
+
+    public int getTimeForEgging() {
+        return timeForEgging;
+    }
+
+    public Milk getMilk() {
+        return milk;
+    }
+
+    public void setMilk(Milk milk) {
+        this.milk = milk;
+    }
+
     public Buffalo(){
 
         super("BUFFALO",2);
