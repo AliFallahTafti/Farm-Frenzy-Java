@@ -333,8 +333,10 @@ import java.util.Set;
                     int k = n;
 
                     while (k >= ((Chicken) animals.get(i)).getTimeForEgging()) {
+
                         k -= ((Chicken) animals.get(i)).getTimeForEgging();
-                        // egg ++;
+                        Egg egg = ((Chicken) animals.get(i)).getEgg();
+                        products.add(egg);
                     }
                 }
 
@@ -344,6 +346,7 @@ import java.util.Set;
                 if (health > 50) { // or > 0
 
                 }
+
                 else animals.remove(i);
             }
 
@@ -353,8 +356,10 @@ import java.util.Set;
                     int k = n;
 
                     while (k >= ((Turkey) animals.get(i)).getTimeForEgging()) {
+
                         k -= ((Turkey) animals.get(i)).getTimeForEgging();
-                        // feather ++;
+                        Feather feather = ((Turkey)animals.get(i)).getFeather();
+                        products.add(feather);
                     }
                 }
 
@@ -375,8 +380,10 @@ import java.util.Set;
                     int k = n;
 
                     while (k >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
+
                         k -= ((Buffalo) animals.get(i)).getTimeForEgging();
-                        // milk ++;
+                        Milk milk = ((Buffalo)animals.get(i)).getMilk();
+                        products.add(milk);
                     }
                 }
 
@@ -385,7 +392,9 @@ import java.util.Set;
 
                 if (health > 50) { // > 0
 
-                } else animals.remove(i);
+                }
+
+                else animals.remove(i);
             }
         }
     }
