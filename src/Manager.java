@@ -3,9 +3,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 //import javax.jws.soap.SOAPBinding;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.Set;
 
-public class Manager {
+    public class Manager {
 
         private User user;
         private Mission mission;
@@ -250,15 +253,100 @@ public class Manager {
             logger.printInfo("YOU PLANT A GRASS!");
         }
     }
+
     public void well(){
-        waterSupplying.fill(logger);
+        waterSupplying.setTimeToOrder(timeIndex,logger);
     }
     public void build(String name){
-
+        if(name.equals("BAKERY")){
+            Bakery bakery=new Bakery();
+            if(this.user.getCoins()>=bakery.getPrice()){
+                this.user.setCoins(this.user.getCoins()-bakery.getPrice());
+                factories.add(bakery);
+                System.out.println("YOU BUILD A BAKERY");
+                logger.printInfo("YOU BUILD A BAKERY");
+            }else{
+                System.out.println("NO ENOUGH MONEY");
+                logger.printError("NO ENOUGH MONEY");
+            }
+        }else if(name.equals("POWDERPLANT")){
+            PowderPlant powderPlant=new PowderPlant();
+            if(this.user.getCoins()>=powderPlant.getPrice()){
+                this.user.setCoins(this.user.getCoins()-powderPlant.getPrice());
+                factories.add(powderPlant);
+                System.out.println("YOU BUILD A POWDERPLANT");
+                logger.printInfo("YOU BUILD A POWDERPLANT");
+            }else{
+                System.out.println("NO ENOUGH MONEY");
+                logger.printError("NO ENOUGH MONEY");
+            }
+        }else if(name.equals("ICECREAMFACTORY")){
+            IceCreamFactory iceCreamFactory=new IceCreamFactory();
+            if(this.user.getCoins()>=iceCreamFactory.getPrice()){
+                this.user.setCoins(this.user.getCoins()-iceCreamFactory.getPrice());
+                factories.add(iceCreamFactory);
+                System.out.println("YOU BUILD A ICECREAMFACTORY");
+                logger.printInfo("YOU BUILD A ICECREAMFACTORY");
+            }else{
+                System.out.println("NO ENOUGH MONEY");
+                logger.printError("NO ENOUGH MONEY");
+            }
+        }else if(name.equals("WEAVING")){
+            Weaving weaving=new Weaving();
+            if(this.user.getCoins()>=weaving.getPrice()){
+                this.user.setCoins(this.user.getCoins()-weaving.getPrice());
+                factories.add(weaving);
+                System.out.println("YOU BUILD A WEAVING");
+                logger.printInfo("YOU BUILD A WEAVING");
+            }else{
+                System.out.println("NO ENOUGH MONEY");
+                logger.printError("NO ENOUGH MONEY");
+            }
+        }else if(name.equals("SEWING")){
+            Sewing sewing=new Sewing();
+            if(this.user.getCoins()>=sewing.getPrice()){
+                this.user.setCoins(this.user.getCoins()-sewing.getPrice());
+                factories.add(sewing);
+                System.out.println("YOU BUILD A SEWING");
+                logger.printInfo("YOU BUILD A SEWING");
+            }else{
+                System.out.println("NO ENOUGH MONEY");
+                logger.printError("NO ENOUGH MONEY");
+            }
+        }else if(name.equals("MILKPACKING")){
+            MilkPacking milkPacking=new MilkPacking();
+            if(this.user.getCoins()>=milkPacking.getPrice()){
+                this.user.setCoins(this.user.getCoins()-milkPacking.getPrice());
+                factories.add(milkPacking);
+                System.out.println("YOU BUILD A MILKPACKING");
+                logger.printInfo("YOU BUILD A MILKPACKING");
+            }else{
+                System.out.println("NO ENOUGH MONEY");
+                logger.printError("NO ENOUGH MONEY");
+            }
+        }else{
+            System.out.println("INVALID FACTORY NAME!");
+            logger.printError("INVALID FACTORY NAME!");
+        }
     }
-    public void work(String name){
 
+    public int work(String name){
+        for (int i = 0; i < factories.size(); i++) {
+            if(factories.get(i).getName().equals(name)){
+                for (int j = 0; j < products.size(); j++) {
+                    if(products.get(j).getName().equals(factories.get(i).getInputProduct())){
+                        factories.get(i).setTimeToOrder(timeIndex);
+                        products.remove(j);
+                        logger.printInfo("FACTORY STARTS WORKING!");
+                        return 1;
+                    }
+                }
+            }
+        }
+        logger.printError("INVALID FACTORY NAME OR NO INPUT PRODUCT!");
+        return 0;
     }
+
     public void cage(int x,int y){
         for (int i = 0; i < animals.size(); i++) {
             if(animals.get(i).getName().equals("BEAR")||animals.get(i).getName().equals("LION")||animals.get(i).getName().equals("TIGER")){
@@ -277,50 +365,67 @@ public class Manager {
     public void turn(int n){
 
         timeIndex += n;
+        UpdateUnpickedProducts(n);
+        UpdateWaterSupplying(n);
+        UpdateTruck(n);
+        UpdateWildAnimals(n);
         UpdateAnimalsAndTheirProducts(n);
-//        UpdateFactoriesAndTheirProducts(n);
+        UpdateFactoriesAndTheirProducts(n);
+        inquiry();
+    }
 
-//        if(n >= this.waterSupplying.getTimeToFill()){
-//            well();
-//        }
 
-        System.out.println("TIME :"+timeIndex);
-        screen = new int[6][6];
-        for (int i = 0; i < 6; i++) {
-            for (int i1 = 0; i1 < 6; i1++) {
-                for (Grass grass : grasses) {
-                    if (i + 1 == grass.getPoint().getX() && i1 + 1 == grass.getPoint().getY()) {
-                        screen[i][i1]++;
-                    }
-                }
-            }
-        }
-        System.out.println("GRASSES:");
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                System.out.print(screen[i][j]+" ");
-            }
-            System.out.println();
-        }
-        System.out.println("ANIMALS AND PRODUCTS:");
-        for (int i = 0; i < animals.size(); i++) {
-            System.out.print(animals.get(i).getName());
-            System.out.print(" "+animals.get(i).getHealth()+"% "+animals.get(i).getPoint().print()+"\n");
-        }
+    public void UpdateUnpickedProducts(int n){
         for (int i = 0; i < products.size(); i++) {
-            System.out.print(products.get(i).getName()+" "+products.get(i).getPoint().print());
-        }
-        System.out.println("MISSIONS:");
-        Set<String> productKeys=mission.productTasks.keySet();
-        Set<String >animalKeys=mission.animalTask.keySet();
-        for(String productKey: productKeys){
-            System.out.println(productKey+" "+mission.productTasks.get(productKey)+"/"+missions.get(user.getLevel()).productTasks.get(productKey));
-        }
-        for(String animalKey: animalKeys){
-            System.out.println(animalKey+" "+mission.animalTask.get(animalKey)+"/"+missions.get(user.getLevel()).animalTask.get(animalKey));
+                if(timeIndex-products.get(i).getTimeProduced()>=products.get(i).getTimeToDestroy()){
+                    products.remove(i);
+                }
         }
     }
 
+    public void UpdateWildAnimals(int n){
+        Set<String> wildAnimals=mission.wildAnimals.keySet();
+        for(String wildAnimal: wildAnimals){
+            if(mission.wildAnimals.get(wildAnimal)>=n){
+                if(wildAnimal.equals("BEAR")){
+                    Bear bear=new Bear();
+                    this.animals.add(bear);
+                    logger.printInfo("ENEMY IS ATTACKING");
+                }else if(wildAnimal.equals("LION")){
+                    Lion lion=new Lion();
+                    this.animals.add(lion);
+                    logger.printInfo("ENEMY IS ATTACKING");
+                }else if(wildAnimal.equals("TIGER")){
+                    Tiger tiger=new Tiger();
+                    this.animals.add(tiger);
+                    logger.printInfo("ENEMY IS ATTACKING");
+                }
+            }
+        }
+    }
+
+    public void UpdateTruck(int n){
+        if(this.timeIndex-this.truck.getTimeToOrder()>=this.truck.getTimeToGo()){
+            for (int i = 0; i < truck.getProducts().size(); i++) {
+                this.user.setCoins(this.user.getCoins()+truck.getProducts().get(i).getPrice());
+            }
+            for (int i = 0; i < truck.getAnimals().size(); i++) {
+                this.user.setCoins(this.user.getCoins()+truck.getAnimals().get(i).getPrice());
+            }
+            truck.setCapacity(15);
+            truck.setTimeToOrder(-1);
+            truck.getProducts().clear();
+            truck.getAnimals().clear();
+            logger.printInfo("THE TRUCK COMES BACK");
+        }
+    }
+
+    public void UpdateWaterSupplying(int n){
+        if(this.timeIndex-this.waterSupplying.getTimeToOrder()>=this.waterSupplying.getTimeToFill()){
+            this.waterSupplying.fill();
+            logger.printInfo("THE WELL IS FILLED NOW!");
+        }
+    }
 
 //     update animals and their products
 
@@ -341,7 +446,7 @@ public class Manager {
                     while (k >= ((Chicken) animals.get(i)).getTimeForEgging()) {
 
                         k -= ((Chicken) animals.get(i)).getTimeForEgging();
-                        Egg egg = new Egg();
+                        Egg egg = new Egg(timeIndex);
                         products.add(egg);
                     }
 
@@ -395,11 +500,9 @@ public class Manager {
                     while (k >= ((Turkey) animals.get(i)).getTimeForEgging()) {
 
                         k -= ((Turkey) animals.get(i)).getTimeForEgging();
-                        Feather feather = new Feather();
+                        Feather feather = new Feather(timeIndex);
                         products.add(feather);
                     }
-
-                    k_mod_timeForEgging = k % ((Turkey) animals.get(i)).getTimeForEgging();
                 }
 
                 int health = animals.get(i).getHealth();
@@ -450,7 +553,7 @@ public class Manager {
                     while (k >= ((Buffalo) animals.get(i)).getTimeForEgging()) {
 
                         k -= ((Buffalo) animals.get(i)).getTimeForEgging();
-                        Milk milk = new Milk();
+                        Milk milk = new Milk(timeIndex);
                         products.add(milk);
                     }
 
@@ -833,15 +936,52 @@ public class Manager {
 
     // update factories and their products
 
-//    public void UpdateFactoriesAndTheirProducts(int n) {
-//
-//        for (int i = 0; i < factories.size(); i++) {
-//
-//            if(n >= factories.get(i).getTimeToProduce()) {
-//
-////                factories.get(i)
-//            }
-//        }
+    public void UpdateFactoriesAndTheirProducts(int n) {
+
+        for (int i = 0; i < factories.size(); i++) {
+            if(this.timeIndex-factories.get(i).getTimeToOrder()>=factories.get(i).getTimeToProduce()){
+                factories.get(i).setTimeToOrder(-1);
+                switch (factories.get(i).getOutputProduct()){
+                    case "POWDER":
+                        Powder powder=new Powder(timeIndex);
+                        products.add(powder);
+                        logger.printInfo("POWDER PLANT MADE A POWDER");
+                        break;
+
+                    case "BREAD":
+                        Bread bread=new Bread(timeIndex);
+                        products.add(bread);
+                        logger.printInfo("BAKERY MADE A BREAD");
+                        break;
+
+                    case "PACKEDMILK":
+                        PackedMilk packedMilk=new PackedMilk(timeIndex);
+                        products.add(packedMilk);
+                        logger.printInfo("MILK PACKING MADE A PACKED MILK");
+                        break;
+
+                    case "DRESS":
+                        Dress dress=new Dress(timeIndex);
+                        products.add(dress);
+                        logger.printInfo("SEWING MADE A DRESS");
+                        break;
+
+                    case "CLOTHES":
+                        Clothes clothes=new Clothes(timeIndex);
+                        products.add(clothes);
+                        logger.printInfo("WEAVING MADE A CLOTHE");
+                        break;
+
+                    case "ICECREAM":
+                        IceCream iceCream=new IceCream(timeIndex);
+                        products.add(iceCream);
+                        logger.printInfo("ICE CREAM FACTORY MADE AN ICE CREAM");
+                        break;
+                }
+            }
+        }
+    }
+
 
 
     public void inquiry(){
@@ -927,15 +1067,7 @@ public class Manager {
         }
     }
     public void truckGo(){
-        for (int i = 0; i < truck.getProducts().size(); i++) {
-            this.user.setCoins(this.user.getCoins()+truck.getProducts().get(i).getPrice());
-        }
-        for (int i = 0; i < truck.getAnimals().size(); i++) {
-            this.user.setCoins(this.user.getCoins()+truck.getAnimals().get(i).getPrice());
-        }
-        truck.setCapacity(15);
-        truck.getProducts().clear();
-        truck.getAnimals().clear();
+        this.truck.setTimeToOrder(timeIndex);
     }
     public void logout(){
         System.out.println("LOGOUT SUCCESSFULLY!");
@@ -957,9 +1089,7 @@ public class Manager {
             mission.productTasks.put(product.getName(),prim-1);
         }
     }
-    public void updateAnimals(){
 
-    }
     public int checkStatus(){
         if(this.user.getCoins()==0&&this.storeroom.getCapacity()==30&&this.animals.isEmpty()&&this.products.isEmpty()) {
             this.gameStatus = 0;
@@ -998,7 +1128,6 @@ public class Manager {
         }
     }
     public void updateGame(){
-        //todo
         checkStatus();
         printStatus();
     }

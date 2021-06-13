@@ -1,7 +1,7 @@
 public class PackedMilk extends Product{
 
-    public PackedMilk() {
+    public PackedMilk(int timeProduced) {
 
-        super("PACKEDMILK", 2, 60, 5);
+        super("PACKEDMILK", 2, 60, 5,timeProduced);
     }
 }

@@ -2,6 +2,6 @@ public class Weaving extends Factories{
 
     public Weaving() {
 
-        super(250, 5);
+        super(250, 5,"WEAVING","FEATHER","CLOTHES");
     }
 }

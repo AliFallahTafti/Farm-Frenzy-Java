@@ -1,7 +1,7 @@
 public class Dress extends Product{
 
-    public Dress() {
+    public Dress(int timeProduced) {
 
-        super("DRESS", 4, 100, 6);
+        super("DRESS", 4, 100, 6,timeProduced);
     }
 }

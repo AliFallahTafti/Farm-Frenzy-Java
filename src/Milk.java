@@ -1,7 +1,7 @@
 public class Milk extends Product{
 
-    public Milk(){
+    public Milk(int timeProduced){
 
-        super("MILK",1,15,2);
+        super("MILK",1,15,2,timeProduced);
     }
 }

@@ -1,6 +1,6 @@
 public class Bread extends Product{
 
-    public Bread() {
-        super("BREAD", 4, 80, 6);
+    public Bread(int timeProduced) {
+        super("BREAD", 4, 80, 6,timeProduced);
     }
 }
