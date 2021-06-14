@@ -699,6 +699,18 @@ import java.util.Set;
 
                     // random walk twice
                     RandomWalk(animals.get(i));
+
+                    for (Animal animal : animals) {
+
+                        if (animal.getName().equals("CHICKEN") || animal.getName().equals("TURKEY") || animal.getName().equals("BUFFALO")) {
+
+                            if (animal.getPoint().equals(animals.get(i).getPoint())) {
+
+                                animals.remove(animal);
+                            }
+                        }
+                    }
+
                     RandomWalk(animals.get(i));
                     n_n--;
 
