@@ -2,16 +2,18 @@ public class WaterSupplying {
     private int capacity;
     private int timeToFill;
     private int timeToOrder;
+    private boolean order;
 
     public WaterSupplying(){
         this.capacity=5;
         this.timeToFill=3;
-        this.timeToOrder=-1;
+        this.timeToOrder=0;
+        this.order=false;
     }
     public void fill(){
         if(this.capacity==0){
             this.capacity=5;
-            this.timeToOrder=-1;
+            this.order=false;
         }
     }
     public void unFill(){
@@ -34,12 +36,18 @@ public class WaterSupplying {
         if(this.capacity!=0) {
             System.out.println("THE WELL ISN'T EMPTY");
             logger.printError("THE WELL ISN'T EMPTY");
-        }else
-             this.timeToOrder = timeToOrder;
+        }else {
+            this.timeToOrder = timeToOrder;
+            this.order=true;
+        }
     }
 
     public int getTimeToFill() {
         return timeToFill;
+    }
+
+    public boolean isOrder() {
+        return order;
     }
 
     public void setTimeToFill(int timeToFill) {

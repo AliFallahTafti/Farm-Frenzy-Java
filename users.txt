@@ -2,8 +2,8 @@
   {
     "username": "ALI",
     "password": "1381",
-    "coins": 500,
-    "level": 1,
-    "stars": 0
+    "coins": 100,
+    "level": 2,
+    "stars": 200
   }
 ]

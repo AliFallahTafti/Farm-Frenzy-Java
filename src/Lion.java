@@ -4,6 +4,7 @@ public class Lion extends Animal{
 
     private int ProgressPerTime;
     private int capacity;
+    private int lastTimeCaged;
 
     public Lion(){
 
@@ -12,5 +13,13 @@ public class Lion extends Animal{
         this.setHealth(3);
         this.setPrice(300);
         this.capacity=5;
+    }
+
+    public int getLastTimeCaged() {
+        return lastTimeCaged;
+    }
+
+    public void setLastTimeCaged(int lastTimeCaged) {
+        this.lastTimeCaged = lastTimeCaged;
     }
 }

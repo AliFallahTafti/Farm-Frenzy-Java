@@ -102,7 +102,14 @@ public class Inputs {
                         manager.inquiry();
                     } else if (patternMatcher(input, "^LOGOUT\\s*$")) {
                         manager.logout();
-                    }else
+                    } else if (patternMatcher(input, "UPGRADE\\s+(\\w+)\\s*$")) {
+                        Matcher matcher=getMatcher(input, "UPGRADE\\s+(\\w+)\\s*$");
+                        if(matcher.matches()) {
+                            String name=matcher.group(1);
+                            manager.upgrade(name);
+                        }
+                    }
+                    else
                         System.out.println("INVALID COMMANDS!!");
                 }
         }

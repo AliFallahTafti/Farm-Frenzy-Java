@@ -7,11 +7,13 @@ public class Truck {
     private int capacity;
     private int timeToOrder;
     private int timeToGo;
+    private boolean order;
 
     public Truck(){
         this.capacity=15;
         this.timeToGo=10;
-        this.timeToOrder=-1;
+        this.timeToOrder=0;
+        this.order=false;
         animals=new ArrayList<>();
         products=new ArrayList<>();
     }
@@ -27,6 +29,10 @@ public class Truck {
             animals.add(animal);
             capacity-=animal.getCapacity();
         }
+    }
+
+    public boolean isOrder() {
+        return order;
     }
 
     public void setCapacity(int capacity) {
@@ -51,6 +57,10 @@ public class Truck {
 
     public void setTimeToOrder(int timeToOrder) {
         this.timeToOrder = timeToOrder;
+    }
+
+    public void setOrder(boolean order) {
+        this.order = order;
     }
 
     public int getTimeToGo() {

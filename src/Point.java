@@ -29,4 +29,12 @@ public class Point {
     public void setY(int y) {
         this.y = y;
     }
+    public boolean isEqual(Point a){
+        if(this.x==a.getX()&&this.y==a.getY())
+            return true;
+        return false;
+    }
+    public double distance(Point a){
+        return Math.sqrt((this.x-a.getX())*(this.x-a.getX())+(this.y-a.getY())*(this.y-a.getY()));
+    }
 }

@@ -6,6 +6,8 @@ public class Factories {
     private String outputProduct;
     private int timeToProduce;
     private int timeToOrder;
+    private boolean order;
+    private boolean upgrade;
 
     public int getTimeToProduce() {
         return timeToProduce;
@@ -16,7 +18,9 @@ public class Factories {
         this.price = price;
         this.timeToProduce = timeToProduce;
         this.name=name;
-        this.timeToOrder=-1;
+        this.timeToOrder=0;
+        this.upgrade=false;
+        this.order=false;
         this.inputProduct=inputProduct;
         this.outputProduct=outputProduct;
     }
@@ -41,7 +45,24 @@ public class Factories {
         return outputProduct;
     }
 
+    public boolean isOrder() {
+        return order;
+    }
+
+    public void setOrder(boolean order) {
+        this.order = order;
+    }
+
     public void setTimeToOrder(int timeToOrder) {
         this.timeToOrder = timeToOrder;
+    }
+
+    public boolean isUpgrade() {
+        return upgrade;
+    }
+
+    //method
+    public void upgrade(){
+        this.upgrade=true;
     }
 }
