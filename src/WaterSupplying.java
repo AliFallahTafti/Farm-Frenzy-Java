@@ -37,6 +37,8 @@ public class WaterSupplying {
             System.out.println("THE WELL ISN'T EMPTY");
             logger.printError("THE WELL ISN'T EMPTY");
         }else {
+            System.out.println("THE WELL STARTS FILLING!");
+            logger.printInfo("THE WELL STARTS FILLING!");
             this.timeToOrder = timeToOrder;
             this.order=true;
         }

@@ -129,39 +129,40 @@ public class Animal {
                 }
             }
         } else {
-            Point help=new Point();
-            help.setX(this.point.getX());
-            help.setY(this.point.getY());
+
             while (!found && this.name.equals("TIGER")) {
                 Random random = new Random();
                 int dir = random.nextInt();
                 if (dir % 4 == 0) {
                     if (this.point.getX() < 5) {
                         this.point.setX(this.point.getX() + 2);
-                        help.setX(this.point.getX()-1);
+                        ((Tiger)this).getLastPoint().setX(this.point.getX()-1);
+                        ((Tiger)this).getLastPoint().setY(this.point.getY());
                         found = true;
                     }
                 } else if (dir % 4 == 1) {
                     if (this.point.getX() > 2) {
                         this.point.setX(this.point.getX() - 2);
-                        help.setX(this.point.getX()+1);
+                        ((Tiger)this).getLastPoint().setX(this.point.getX()+1);
+                        ((Tiger)this).getLastPoint().setY(this.point.getY());
                         found = true;
                     }
                 } else if (dir % 4 == 2) {
                     if (this.point.getY() < 5) {
                         this.point.setY(this.point.getY() + 2);
-                        help.setY(this.point.getY()-1);
+                        ((Tiger)this).getLastPoint().setX(this.point.getX());
+                        ((Tiger)this).getLastPoint().setY(this.point.getY()-1);
                         found = true;
                     }
                 } else if (dir % 4 == 3) {
                     if (this.point.getY() > 2) {
                         this.point.setY(this.point.getY() - 2);
-                        help.setY(this.point.getY()+1);
+                        ((Tiger)this).getLastPoint().setX(this.point.getX());
+                        ((Tiger)this).getLastPoint().setY(this.point.getY()+1);
                         found = true;
                     }
                 }
             }
-            ((Tiger)this).setLastPoint(help);
         }
     }
 }

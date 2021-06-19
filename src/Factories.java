@@ -6,7 +6,9 @@ public class Factories {
     private String outputProduct;
     private int timeToProduce;
     private int timeToOrder;
+    private int upgradePrice;
     private boolean order;
+    private int upgradeMood;  //0 not   1 mood a   2 mood b
     private boolean upgrade;
 
     public int getTimeToProduce() {
@@ -19,6 +21,8 @@ public class Factories {
         this.timeToProduce = timeToProduce;
         this.name=name;
         this.timeToOrder=0;
+        this.upgradePrice=100;
+        this.upgradeMood=1;
         this.upgrade=false;
         this.order=false;
         this.inputProduct=inputProduct;
@@ -55,6 +59,22 @@ public class Factories {
 
     public void setTimeToOrder(int timeToOrder) {
         this.timeToOrder = timeToOrder;
+    }
+
+    public int getUpgradeMood() {
+        return upgradeMood;
+    }
+
+    public void setUpgradeMood(int upgrade) {
+        this.upgradeMood = upgrade;
+    }
+
+    public int getUpgradePrice() {
+        return upgradePrice;
+    }
+
+    public void setTimeToProduce(int timeToProduce) {
+        this.timeToProduce = timeToProduce;
     }
 
     public boolean isUpgrade() {
