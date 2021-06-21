@@ -1184,7 +1184,6 @@ import java.util.Set;
                 //check wild animals
                 if (i!=animals.size()&&(animals.get(i).getName().equals("BEAR") || animals.get(i).getName().equals("LION") || animals.get(i).getName().equals("TIGER"))) {
                     for (int i1 = 0; i1 < this.animals.size(); i1++) {
-                        if (animals.get(i).getName().equals("BEAR") || animals.get(i).getName().equals("LION")) {
                             if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
                                 if (animals.get(i).getPoint().isEqual(animals.get(i1).getPoint())) {
                                     logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
@@ -1204,12 +1203,12 @@ import java.util.Set;
                                     logger.printInfo(animals.get(i).getName()+" FIGHT WITH " + animals.get(i1).getName());
                                     System.out.println(animals.get(i).getName()+" FIGHT WITH "+ animals.get(i1).getName());
                                     animals.remove(i1);
-                                    animals.remove(i);
                                     if(i1<i){
                                         --i;
                                         if(i<0)
                                             i=0;
                                     }
+                                    animals.remove(i);
                                     --i1;
                                     --i;
                                     if(i<0)
@@ -1218,7 +1217,6 @@ import java.util.Set;
                                         i1=0;
                                 }
                             }
-                        } else {
                             if (animals.get(i).getName().equals("TIGER")) {
                                 if (((Tiger) animals.get(i)).getLastPoint().isEqual(animals.get(i1).getPoint())) {
                                     if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
@@ -1237,12 +1235,12 @@ import java.util.Set;
                                         logger.printInfo(animals.get(i).getName()+" FIGHT WITH " + animals.get(i1).getName());
                                         System.out.println(animals.get(i).getName()+" FIGHT WITH "+ animals.get(i1).getName());
                                         animals.remove(i1);
-                                        animals.remove(i);
                                         if(i1<i){
                                             --i;
                                             if(i<0)
                                                 i=0;
                                         }
+                                        animals.remove(i);
                                         --i1;
                                         --i;
                                         if(i<0)
@@ -1251,7 +1249,6 @@ import java.util.Set;
                                             i1=0;
                                     }
                                 }
-                            }
                         }
                     }
                 }
@@ -1317,6 +1314,7 @@ import java.util.Set;
                     for (int i1 = 0; i1 < this.products.size(); i1++) {
                         if (animals.get(i).getPoint().isEqual(products.get(i1).getPoint())) {
                             storeroom.getProducts().add(products.get(i1));
+                            updateMission(products.get(i1));
                             products.remove(i1);
                             --i1;
                             if(i1<0)
@@ -1368,6 +1366,8 @@ import java.util.Set;
             System.out.print(animals.get(i).getName());
             if(animals.get(i).getName().equals("TIGER")||animals.get(i).getName().equals("LION")||animals.get(i).getName().equals("BEAR")){
             System.out.print(" "+animals.get(i).getHealth()+" "+animals.get(i).getPoint().print()+"\n");
+            }else if(animals.get(i).getName().equals("CAT")||animals.get(i).getName().equals("DOG")){
+                System.out.print(" "+animals.get(i).getPoint().print()+"\n");
             }else
                 System.out.print(" "+animals.get(i).getHealth()+"%"+animals.get(i).getPoint().print()+"\n");
         }
@@ -1386,78 +1386,103 @@ import java.util.Set;
         }
     }
     public int load(String name){
-        for (int i = 0; i < storeroom.getProducts().size(); i++) {
-            if(storeroom.getProducts().get(i).getName().equals(name)){
-                if(truck.getCapacity()>=storeroom.getProducts().get(i).getCapacity()) {
-                    truck.updateCapacity(storeroom.getProducts().get(i));
-                    storeroom.setCapacity(storeroom.getCapacity() + storeroom.getProducts().get(i).getCapacity());
-                    storeroom.getProducts().remove(i);
-                    logger.printInfo("YOU LOAD "+name);
-                    System.out.println("YOU LOAD "+name);
-                    return 1;
+        if(!this.truck.isOrder()) {
+            for (int i = 0; i < storeroom.getProducts().size(); i++) {
+                if (storeroom.getProducts().get(i).getName().equals(name)) {
+                    if (truck.getCapacity() >= storeroom.getProducts().get(i).getCapacity()) {
+                        truck.updateCapacity(storeroom.getProducts().get(i));
+                        storeroom.setCapacity(storeroom.getCapacity() + storeroom.getProducts().get(i).getCapacity());
+                        storeroom.getProducts().remove(i);
+                        logger.printInfo("YOU LOAD " + name);
+                        System.out.println("YOU LOAD " + name);
+                        return 1;
+                    } else {
+                        logger.printError("NO ENOUGH ROOM!");
+                        System.out.println("NO ENOUGH ROOM!");
+                        return 0;
+                    }
                 }
             }
-        }
-        for (int i = 0; i < storeroom.getAnimals().size(); i++) {
-            if(storeroom.getAnimals().get(i).getName().equals(name)){
-                if(truck.getCapacity()>=storeroom.getAnimals().get(i).getCapacity()) {
-                    truck.updateCapacity(storeroom.getAnimals().get(i));
-                    if(name.equals("BEAR")||name.equals("LION")||name.equals("TIGER"))
-                        storeroom.setCapacity(storeroom.getCapacity() + storeroom.getAnimals().get(i).getCapacity());
-                    storeroom.getAnimals().remove(i);
-                    logger.printInfo("YOU LOAD "+name);
-                    System.out.println("YOU LOAD "+name);
-                    return 1;
+            for (int i = 0; i < storeroom.getAnimals().size(); i++) {
+                if (storeroom.getAnimals().get(i).getName().equals(name)) {
+                    if (truck.getCapacity() >= storeroom.getAnimals().get(i).getCapacity()) {
+                        truck.updateCapacity(storeroom.getAnimals().get(i));
+                        if (name.equals("BEAR") || name.equals("LION") || name.equals("TIGER"))
+                            storeroom.setCapacity(storeroom.getCapacity() + storeroom.getAnimals().get(i).getCapacity());
+                        storeroom.getAnimals().remove(i);
+                        logger.printInfo("YOU LOAD " + name);
+                        System.out.println("YOU LOAD " + name);
+                        return 1;
+                    } else {
+                        logger.printError("NO ENOUGH ROOM!");
+                        System.out.println("NO ENOUGH ROOM!");
+                        return 0;
+                    }
                 }
             }
+            logger.printError("THERE ISN'T ANY " + name);
+            System.out.println("THERE ISN'T ANY " + name);
+            return 0;
+        }else{
+            logger.printError("THE TRUCK IS ON WAY");
+            System.out.println("THE TRUCK IS ON WAY");
+            return 0;
         }
-        logger.printError("THERE ISN'T ANY "+name);
-        System.out.println("THERE ISN'T ANY "+name);
-        return 0;
     }
     public int unload(String name){
-        for (int i = 0; i < truck.getProducts().size(); i++) {
-            if(truck.getProducts().get(i).getName().equals(name)){
-                if(storeroom.getCapacity()>=truck.getProducts().get(i).getCapacity()) {
-                    truck.setCapacity(truck.getCapacity() + truck.getProducts().get(i).getCapacity());
-                    storeroom.getProducts().add(truck.getProducts().get(i));
-                    storeroom.setCapacity(storeroom.getCapacity() - truck.getProducts().get(i).getCapacity());
-                    truck.getProducts().remove(i);
-                    --i;
-                    if(i<0)
-                        i=0;
-                    logger.printInfo("YOU UNLOAD "+name);
-                    System.out.println("YOU UNLOAD "+name);
-                    return 1;
+        if(!this.truck.isOrder()) {
+            for (int i = 0; i < truck.getProducts().size(); i++) {
+                if (truck.getProducts().get(i).getName().equals(name)) {
+                    if (storeroom.getCapacity() >= truck.getProducts().get(i).getCapacity()) {
+                        truck.setCapacity(truck.getCapacity() + truck.getProducts().get(i).getCapacity());
+                        storeroom.getProducts().add(truck.getProducts().get(i));
+                        storeroom.setCapacity(storeroom.getCapacity() - truck.getProducts().get(i).getCapacity());
+                        truck.getProducts().remove(i);
+                        --i;
+                        if (i < 0)
+                            i = 0;
+                        logger.printInfo("YOU UNLOAD " + name);
+                        System.out.println("YOU UNLOAD " + name);
+                        return 1;
+                    }
                 }
             }
-        }
-        for (int i = 0; i < truck.getAnimals().size(); i++) {
-            if(truck.getAnimals().get(i).getName().equals(name)){
-                if(storeroom.getCapacity()>=truck.getAnimals().get(i).getCapacity()){
-                    truck.setCapacity(truck.getCapacity() + truck.getAnimals().get(i).getCapacity());
-                    storeroom.getAnimals().add(truck.getAnimals().get(i));
-                    if(name.equals("BEAR")||name.equals("LION")|| name.equals("TIGER"))
-                        storeroom.setCapacity(storeroom.getCapacity() - truck.getAnimals().get(i).getCapacity());
-                    truck.getAnimals().remove(i);
-                    --i;
-                    if(i<0)
-                        i=0;
-                    logger.printInfo("YOU UNLOAD "+name);
-                    System.out.println("YOU UNLOAD "+name);
-                    return 1;
+            for (int i = 0; i < truck.getAnimals().size(); i++) {
+                if (truck.getAnimals().get(i).getName().equals(name)) {
+                    if (storeroom.getCapacity() >= truck.getAnimals().get(i).getCapacity()) {
+                        truck.setCapacity(truck.getCapacity() + truck.getAnimals().get(i).getCapacity());
+                        storeroom.getAnimals().add(truck.getAnimals().get(i));
+                        if (name.equals("BEAR") || name.equals("LION") || name.equals("TIGER"))
+                            storeroom.setCapacity(storeroom.getCapacity() - truck.getAnimals().get(i).getCapacity());
+                        truck.getAnimals().remove(i);
+                        --i;
+                        if (i < 0)
+                            i = 0;
+                        logger.printInfo("YOU UNLOAD " + name);
+                        System.out.println("YOU UNLOAD " + name);
+                        return 1;
+                    }
                 }
             }
+            logger.printError("THERE ISN'T ANY " + name);
+            System.out.println("THERE ISN'T ANY " + name);
+            return 0;
+        }else{
+            logger.printError("THE TRUCK IS ON WAY");
+            System.out.println("THE TRUCK IS ON WAY");
+            return 0;
         }
-        logger.printError("THERE ISN'T ANY "+name);
-        System.out.println("THERE ISN'T ANY "+name);
-        return 0;
     }
     public void truckGo(){
-        this.truck.setTimeToOrder(timeIndex);
-        this.truck.setOrder(true);
-        logger.printInfo("THE TRUCK IS GONE!");
-        System.out.println("THE TRUCK IS GONE!");
+        if(!this.truck.isOrder()) {
+            this.truck.setTimeToOrder(timeIndex);
+            this.truck.setOrder(true);
+            logger.printInfo("THE TRUCK IS GONE!");
+            System.out.println("THE TRUCK IS GONE!");
+        }else{
+            logger.printError("THE TRUCK IS ON WAY");
+            System.out.println("THE TRUCK IS ON WAY");
+        }
     }
     public void logout(){
         System.out.println("LOGOUT SUCCESSFULLY!");
