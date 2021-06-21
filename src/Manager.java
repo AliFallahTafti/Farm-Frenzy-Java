@@ -1525,7 +1525,8 @@ import java.util.Set;
         }
         if (!found){
             this.gameStatus=2;
-            this.user.setLevel(this.user.getLevel()+1);
+            if(this.user.getLevel()<this.level)
+                this.user.setLevel(this.user.getLevel()+1);
             if(this.timeIndex<= mission.time){
                 this.user.setStars(this.user.getStars()+mission.stars);
             }
