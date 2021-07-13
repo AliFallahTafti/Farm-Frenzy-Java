@@ -53,14 +53,19 @@ import java.util.Set;
     public int getLoginStatus() {
         return loginStatus;
     }
+    public ArrayList<Mission> getMissions() {
+            return missions;
+        }
+    public User getUser() {
+            return user;
+        }
+    public WaterSupplying getWaterSupplying() {
+            return waterSupplying;
+    }
 
+        //method
+    public int login(String username,String password){
 
-    //method
-    public int login(Scanner scanner){
-        System.out.println("ENTER USERNAME:");
-        String username = scanner.nextLine();
-        System.out.println("ENTER PASSWORD:");
-        String password = scanner.nextLine();
         loadUsers();
         if(users!=null) {
             for (int i = 0; i < users.size(); i++) {
@@ -68,43 +73,28 @@ import java.util.Set;
                     if (users.get(i).getPassword().equals(password)) {
                         logger.printHeader(users.get(i));
                         logger.printInfo("LOGIN SUCCESSFULLY!!");
-                        System.out.println("LOGIN SUCCESSFULLY!!");
                         this.user = users.get(i);
                         this.loginStatus = 3;
                         //todo
                         return 1;
                     }
                     else {
-                        while (!users.get(i).getPassword().equals(password)) {
-                            System.out.println("INCORRECT PASSWORD!!\nENTER YOUR PASSWORD AGAIN:");
-                            password = scanner.nextLine();
-                        }
-                        logger.printHeader(users.get(i));
-                        logger.printInfo("LOGIN SUCCESSFULLY!!");
-                        System.out.println("LOGIN SUCCESSFULLY!!");
-                        this.user = users.get(i);
-                        this.loginStatus = 3;
-                        //todo
-                        return 1;
+                        logger.printError("WRONG PASSWORD");
+                        return 0;
                     }
                 }
             }
         }
         logger.printError("THERE ISN'T ANY USER WITH USER NAME "+username);
-        System.out.println("THERE ISN'T ANY USER WITH USER NAME "+username);
-        return 0;
+        return 2;
     }
 
-    public int signup(Scanner scanner){
-        System.out.println("ENTER USERNAME:");
-        String username = scanner.nextLine();
-        System.out.println("ENTER PASSWORD:");
-        String password = scanner.nextLine();
+    public int signup(String username,String password){
+
         loadUsers();
         if(users!=null) {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getUsername().equals(username)) {
-                    System.out.println("ALREADY THERE IS A USER WITH THIS USERNAME!");
                     logger.printError("ALREADY THERE IS A USER WITH THIS USERNAME!");
                     return 0;
                 }
@@ -113,7 +103,6 @@ import java.util.Set;
         else{
             users=new ArrayList<>();
         }
-        System.out.println("SIGNUP SUCCESSFULLY!!");
         loginStatus=3;
         User user1 = new User(username, password);
         logger.printHeader(user1);
@@ -130,10 +119,20 @@ import java.util.Set;
         saveUsers();
     }
 
+    public int getNumberOfFactory(){
+        int counter=0;
+        Set<String> productKeys=mission.productTasks.keySet();
+        for(String productKey: productKeys){
+            if(productKey.equals("POWDER")||productKey.equals("BREAD")||productKey.equals("CLOTHES")||productKey.equals("DRESS")
+            ||productKey.equals("ICECREAM")||productKey.equals("PACKEDMILK")){
+                ++counter;
+            }
+        }
+        return counter;
+    }
     public void start(int level) throws CloneNotSupportedException {
         loadMissions();
         if(user.getLevel()>=level) {
-            System.out.println("LEVEL:"+level);
             logger.printInfo("START LEVEL :"+level);
             this.mission= (Mission) missions.get(level-1).clone();
             this.user.setCoins(mission.coin);
@@ -152,7 +151,6 @@ import java.util.Set;
         }
         else {
             logger.printAlarm("PREVIOUS LEVELS AREN'T DONE!");
-            System.out.println("PREVIOUS LEVELS AREN'T DONE!");
         }
     }
 
@@ -270,8 +268,15 @@ import java.util.Set;
         }
     }
 
-    public void well(){
-        waterSupplying.setTimeToOrder(timeIndex,logger);
+    public int well(){
+        if(waterSupplying.getCapacity()!=0) {
+            logger.printError("THE WELL ISN'T EMPTY");
+            return 0;
+        }else {
+            logger.printInfo("THE WELL STARTS FILLING!");
+            waterSupplying.setTimeToOrder(timeIndex);
+            return 1;
+        }
     }
 
     public int build(String name){
@@ -494,7 +499,7 @@ import java.util.Set;
         UpdateAnimalsAndTheirProducts1(n);
         UpdateUnpickedProducts();
         UpdateFactoriesAndTheirProducts(n);
-        inquiry();
+        //inquiry();
         updateGame();
     }
 
@@ -557,7 +562,6 @@ import java.util.Set;
             truck.getProducts().clear();
             truck.getAnimals().clear();
             logger.printInfo("THE TRUCK COMES BACK");
-            System.out.println("THE TRUCK COMES BACK");
         }
     }
 
@@ -565,7 +569,6 @@ import java.util.Set;
         if(this.waterSupplying.isOrder()&&this.timeIndex-this.waterSupplying.getTimeToOrder()>=this.waterSupplying.getTimeToFill()){
             this.waterSupplying.fill();
             logger.printInfo("THE WELL IS FILLED NOW!");
-            System.out.println("THE WELL IS FILLED NOW!");
         }
     }
 
@@ -1104,7 +1107,6 @@ import java.util.Set;
                             products.add(powder1);
                         }
                         logger.printInfo("POWDER PLANT MADE A POWDER");
-                        System.out.println("POWDER PLANT MADE A POWDER");
                         break;
 
                     case "BREAD":
@@ -1115,7 +1117,6 @@ import java.util.Set;
                             products.add(bread1);
                         }
                         logger.printInfo("BAKERY MADE A BREAD");
-                        System.out.println("BAKERY MADE A BREAD");
                         break;
 
                     case "PACKEDMILK":
@@ -1126,7 +1127,6 @@ import java.util.Set;
                             products.add(packedMilk1);
                         }
                         logger.printInfo("MILK PACKING MADE A PACKED MILK");
-                        System.out.println("MILK PACKING MADE A PACKED MILK");
                         break;
 
                     case "DRESS":
@@ -1137,7 +1137,6 @@ import java.util.Set;
                             products.add(dress1);
                         }
                         logger.printInfo("SEWING MADE A DRESS");
-                        System.out.println("SEWING MADE A DRESS");
                         break;
 
                     case "CLOTHES":
@@ -1148,7 +1147,6 @@ import java.util.Set;
                             products.add(clothes);
                         }
                         logger.printInfo("WEAVING MADE A CLOTHE");
-                        System.out.println("WEAVING MADE A CLOTHE");
                         break;
 
                     case "ICECREAM":
@@ -1159,7 +1157,6 @@ import java.util.Set;
                             products.add(iceCream1);
                         }
                         logger.printInfo("ICE CREAM FACTORY MADE AN ICE CREAM");
-                        System.out.println("ICE CREAM FACTORY MADE AN ICE CREAM");
                         break;
                 }
             }
@@ -1187,7 +1184,6 @@ import java.util.Set;
                             if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
                                 if (animals.get(i).getPoint().isEqual(animals.get(i1).getPoint())) {
                                     logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
-                                    System.out.println(animals.get(i).getName()+" KILLED "+ animals.get(i1).getName());
                                     animals.remove(i1);
                                     if(i1<i){
                                         --i;
@@ -1201,7 +1197,6 @@ import java.util.Set;
                             } else if (i1!=animals.size()&&animals.get(i1).getName().equals("DOG")) {
                                 if (animals.get(i).getPoint().isEqual(animals.get(i1).getPoint())) {
                                     logger.printInfo(animals.get(i).getName()+" FIGHT WITH " + animals.get(i1).getName());
-                                    System.out.println(animals.get(i).getName()+" FIGHT WITH "+ animals.get(i1).getName());
                                     animals.remove(i1);
                                     if(i1<i){
                                         --i;
@@ -1221,7 +1216,6 @@ import java.util.Set;
                                 if (((Tiger) animals.get(i)).getLastPoint().isEqual(animals.get(i1).getPoint())) {
                                     if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
                                         logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
-                                        System.out.println(animals.get(i).getName()+" KILLED "+ animals.get(i1).getName());
                                         animals.remove(i1);
                                         if(i1<i){
                                             --i;
@@ -1233,7 +1227,6 @@ import java.util.Set;
                                             i1=0;
                                     } else if (i1!=animals.size()&&animals.get(i1).getName().equals("DOG")) {
                                         logger.printInfo(animals.get(i).getName()+" FIGHT WITH " + animals.get(i1).getName());
-                                        System.out.println(animals.get(i).getName()+" FIGHT WITH "+ animals.get(i1).getName());
                                         animals.remove(i1);
                                         if(i1<i){
                                             --i;
@@ -1328,7 +1321,6 @@ import java.util.Set;
                     animals.get(i).setHealth(animals.get(i).getHealth() - 10);
                     if (animals.get(i).getHealth() <= 0) {
                         logger.printInfo(animals.get(i).getName() + " DIED!");
-                        System.out.println(animals.get(i).getName() + " DIED!");
                         animals.remove(i);
                         --i;
                         if (i < 0)
@@ -1485,7 +1477,6 @@ import java.util.Set;
         }
     }
     public void logout(){
-        System.out.println("LOGOUT SUCCESSFULLY!");
         logger.printInfo("LOGOUT SUCCESSFULLY!");
         saveUsers();
         this.loginStatus=1;

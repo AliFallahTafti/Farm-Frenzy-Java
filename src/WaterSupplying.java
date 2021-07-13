@@ -32,16 +32,9 @@ public class WaterSupplying {
         return timeToOrder;
     }
 
-    public void setTimeToOrder(int timeToOrder,Logger logger) {
-        if(this.capacity!=0) {
-            System.out.println("THE WELL ISN'T EMPTY");
-            logger.printError("THE WELL ISN'T EMPTY");
-        }else {
-            System.out.println("THE WELL STARTS FILLING!");
-            logger.printInfo("THE WELL STARTS FILLING!");
+    public void setTimeToOrder(int timeToOrder) {
             this.timeToOrder = timeToOrder;
             this.order=true;
-        }
     }
 
     public int getTimeToFill() {

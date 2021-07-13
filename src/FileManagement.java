@@ -10,6 +10,9 @@ public class FileManagement {
         File file=new File("");
         absolutePath=file.getAbsolutePath();
     }
+    public String getAbsolutePath(){
+        return absolutePath;
+    }
     public void write(String name,String data,boolean append){
         try {
             File file=new File(name);
