@@ -2,7 +2,7 @@
   {
     "username": "ALI",
     "password": "1381",
-    "coins": 60,
+    "coins": 500,
     "level": 5,
     "stars": 600
   }

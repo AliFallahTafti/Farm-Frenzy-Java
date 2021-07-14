@@ -18,6 +18,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Set;
 
 public class Graphic extends JFrame{
     private Manager manager;
@@ -130,7 +131,7 @@ public class Graphic extends JFrame{
 
     public void loadFont() {
         bigFont=new Font("Courier", Font.BOLD,60);
-        smallFont=new Font("Courier", Font.BOLD,15);
+        smallFont=new Font("Courier", Font.BOLD,16);
     }
 
     public void loadIcon() throws IOException {
@@ -157,7 +158,7 @@ public class Graphic extends JFrame{
 
         ImageIcon imageIcon=loader.loginButton;
         Image image=imageIcon.getImage();
-        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(160,80,Image.SCALE_SMOOTH);
         imageIcon=new ImageIcon(image);
 
 
@@ -165,7 +166,7 @@ public class Graphic extends JFrame{
         log.setOpaque(false);
         log.setContentAreaFilled(false);
         log.setBorderPainted(false);
-        log.setBounds(300,300,200,180);
+        log.setBounds(320,300,160,80);
         log.setIcon(imageIcon);
         this.getContentPane().add(log);
         this.getContentPane().add(welcome);
@@ -186,14 +187,14 @@ public class Graphic extends JFrame{
 
         imageIcon=loader.signupButton;
         image=imageIcon.getImage();
-        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(160,80,Image.SCALE_SMOOTH);
         imageIcon=new ImageIcon(image);
 
         JButton sign=new JButton();
         sign.setOpaque(false);
         sign.setContentAreaFilled(false);
         sign.setBorderPainted(false);
-        sign.setBounds(300,400,200,180);
+        sign.setBounds(320,400,160,80);
         sign.setIcon(imageIcon);
         this.getContentPane().add(sign);
 
@@ -279,7 +280,7 @@ public class Graphic extends JFrame{
 
         ImageIcon myPicture = loader.loginButton;
         Image image=myPicture.getImage();
-        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(160,80,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
 
@@ -287,7 +288,7 @@ public class Graphic extends JFrame{
         log.setOpaque(false);
         log.setContentAreaFilled(false);
         log.setBorderPainted(false);
-        log.setBounds(300,400,200,180);
+        log.setBounds(320,450,160,80);
         log.setIcon(myPicture);
         this.getContentPane().add(log);
 
@@ -386,7 +387,7 @@ public class Graphic extends JFrame{
 
         ImageIcon myPicture =loader.signupButton;
         Image image=myPicture.getImage();
-        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(160,80,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
 
@@ -394,7 +395,7 @@ public class Graphic extends JFrame{
         sign.setOpaque(false);
         sign.setContentAreaFilled(false);
         sign.setBorderPainted(false);
-        sign.setBounds(300,400,200,180);
+        sign.setBounds(320,450,160,80);
         sign.setIcon(myPicture);
         this.getContentPane().add(sign);
 
@@ -444,13 +445,13 @@ public class Graphic extends JFrame{
 
         JLabel menu=new JLabel("MENU");
         menu.setFont(bigFont);
-        menu.setBounds(300,100,400,60);
+        menu.setBounds(310,100,400,60);
         this.getContentPane().add(menu);
 
 
         ImageIcon myPicture = loader.startButton;
         Image image=myPicture.getImage();
-        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(160,80,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
 
@@ -458,7 +459,7 @@ public class Graphic extends JFrame{
         start.setOpaque(false);
         start.setContentAreaFilled(false);
         start.setBorderPainted(false);
-        start.setBounds(300,250,200,180);
+        start.setBounds(320,300,160,80);
         start.setIcon(myPicture);
         this.getContentPane().add(start);
 
@@ -476,7 +477,7 @@ public class Graphic extends JFrame{
 
         myPicture = loader.exitButton;
         image=myPicture.getImage();
-        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(160,80,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
 
@@ -484,7 +485,7 @@ public class Graphic extends JFrame{
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
-        exit.setBounds(300,350,200,180);
+        exit.setBounds(320,400,160,80);
         exit.setIcon(myPicture);
         this.getContentPane().add(exit);
 
@@ -506,7 +507,7 @@ public class Graphic extends JFrame{
 
         myPicture =loader.backButton;
         image=myPicture.getImage();
-        image=image.getScaledInstance(100,80,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(100,50,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
 
@@ -514,7 +515,7 @@ public class Graphic extends JFrame{
         back.setOpaque(false);
         back.setContentAreaFilled(false);
         back.setBorderPainted(false);
-        back.setBounds(650,480,100,80);
+        back.setBounds(650,480,100,50);
         back.setIcon(myPicture);
         this.getContentPane().add(back);
 
@@ -708,7 +709,7 @@ public class Graphic extends JFrame{
 
     public void preGame(int level){
         JLabel label=new JLabel();
-        label.setBounds(275,175,250,250);
+        label.setBounds(300,200,200,200);
         ImageIcon myPicture;
 
 
@@ -725,7 +726,7 @@ public class Graphic extends JFrame{
         }
 
         Image image=myPicture.getImage();
-        image=image.getScaledInstance(250,250,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(200,200,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
         label.setIcon(myPicture);
         Timer timer=new Timer(1000, e -> label.setVisible(false));
@@ -735,11 +736,11 @@ public class Graphic extends JFrame{
 
         myPicture=loader.getReady;
         image=myPicture.getImage();
-        image=image.getScaledInstance(250,250,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(200,200,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
         JLabel label1=new JLabel();
-        label1.setBounds(275,175,250,250);
+        label1.setBounds(300,200,200,200);
         label1.setIcon(myPicture);
         timer=new Timer(2000, e -> label1.setVisible(false));
         timer.setRepeats(false);
@@ -751,14 +752,14 @@ public class Graphic extends JFrame{
         //well
         ImageIcon myPicture=loader.well;
         Image image=myPicture.getImage();
-        image=image.getScaledInstance(150,150,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(140,140,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
 
         JButton well=new JButton();
         well.setOpaque(false);
         well.setContentAreaFilled(false);
         well.setBorderPainted(false);
-        well.setBounds(310,5,150,150);
+        well.setBounds(310,5,140,140);
         well.setIcon(myPicture);
         this.getContentPane().add(well);
         well.addActionListener(new ActionListener() {
@@ -795,29 +796,265 @@ public class Graphic extends JFrame{
         image=image.getScaledInstance(20,60,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
         JLabel wellProgress=new JLabel();
-        wellProgress.setBounds(300,50,20,60);
+        wellProgress.setBounds(300,50,15,60);
         wellProgress.setIcon(myPicture);
         getContentPane().add(wellProgress);
-
-        //animal button
-
-
-
 
 
         //storeroom
 
+        myPicture=loader.storeRoom;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(200,180,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
 
+        JButton storeRoom=new JButton();
+        storeRoom.setOpaque(false);
+        storeRoom.setContentAreaFilled(false);
+        storeRoom.setBorderPainted(false);
+        storeRoom.setBounds(300,400,200,180);
+        storeRoom.setIcon(myPicture);
+        this.getContentPane().add(storeRoom);
+        storeRoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
 
 
 
         //information
 
+        JLabel money=new JLabel();
+        money.setBounds(500,20,100,40);
+        myPicture=loader.wideButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(100,40,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+
+        money.setIcon(myPicture);
+        myPicture=loader.coin;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(30,30,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JLabel coin=new JLabel();
+        coin.setBounds(5,5,30,30);
+        coin.setIcon(myPicture);
+
+        JLabel amount=new JLabel(manager.getUser().getCoins()+"$");
+        amount.setFont(smallFont);
+        amount.setBounds(40,5,80,30);
+        money.add(amount);
+        money.add(coin);
+        getContentPane().add(money);
+
+        JLabel info=new JLabel();
+        info.setBounds(580,420,180,130);
+        myPicture=loader.woodSurface;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(180,130,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        info.setIcon(myPicture);
+        getContentPane().add(info);
+
+        Set<String> productKeys=manager.getMission().productTasks.keySet();
+        Set<String >animalKeys=manager.getMission().animalTask.keySet();
+        int counter=0;
+        for(String productKey: productKeys){
+            JLabel icon=new JLabel();
+            icon.setBounds(50,10+counter*30,30,30);
+            icon.setIcon(loader.loadProductIcon(productKey,30,30));
+            JLabel label=new JLabel(manager.getMission().productTasks.get(productKey)+"/"+manager.getMissions().get(manager.getLevel()-1).productTasks.get(productKey));
+            label.setFont(smallFont);
+            label.setBounds(90,15+counter*30,150,20);
+            info.add(label);
+            info.add(icon);
+            ++counter;
+        }
+        for(String animalKey: animalKeys){
+            JLabel icon=new JLabel();
+            icon.setBounds(50,10+counter*30,30,30);
+            icon.setIcon(loader.loadAnimalIcon(animalKey,30,30));
+            JLabel label=new JLabel(manager.getMission().animalTask.get(animalKey)+"/"+manager.getMissions().get(manager.getLevel()-1).animalTask.get(animalKey));
+            label.setFont(smallFont);
+            label.setBounds(90,15+counter*30,150,20);
+            info.add(label);
+            info.add(icon);
+            ++counter;
+        }
 
 
+        JLabel time=new JLabel();
+        time.setBounds(680,370,100,40);
+        myPicture=loader.wideButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(100,40,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+
+        time.setIcon(myPicture);
+        myPicture=loader.time;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JLabel timel=new JLabel();
+        timel.setBounds(10,10,20,20);
+        timel.setIcon(myPicture);
+
+        JLabel timeAmount=new JLabel(String.valueOf(manager.getTimeIndex()));
+        timeAmount.setFont(smallFont);
+        timeAmount.setBounds(50,5,80,30);
+        time.add(timeAmount);
+        time.add(timel);
+        getContentPane().add(time);
+
+
+
+        //show truck
+
+        myPicture=loader.truck;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(160,160,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+
+        JButton truck=new JButton();
+        truck.setOpaque(false);
+        truck.setContentAreaFilled(false);
+        truck.setBorderPainted(false);
+        truck.setBounds(140,400,160,160);
+        truck.setIcon(myPicture);
+        this.getContentPane().add(truck);
+        truck.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
+
+
+        //animal buy button
+        myPicture=loader.buyChickenButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(55,55,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton buyChicken=new JButton();
+        buyChicken.setOpaque(false);
+        buyChicken.setContentAreaFilled(false);
+        buyChicken.setBorderPainted(false);
+        buyChicken.setBounds(5,5,55,55);
+        buyChicken.setIcon(myPicture);
+        this.getContentPane().add(buyChicken);
+        buyChicken.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("chicken");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+
+        myPicture=loader.buyTurkeyButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(55,55,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton buyTurkey=new JButton();
+        buyTurkey.setOpaque(false);
+        buyTurkey.setContentAreaFilled(false);
+        buyTurkey.setBorderPainted(false);
+        buyTurkey.setBounds(60,5,55,55);
+        buyTurkey.setIcon(myPicture);
+        this.getContentPane().add(buyTurkey);
+        buyTurkey.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("turkey");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+
+        myPicture=loader.buyBuffaloButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(55,55,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton buyBuffalo=new JButton();
+        buyBuffalo.setOpaque(false);
+        buyBuffalo.setContentAreaFilled(false);
+        buyBuffalo.setBorderPainted(false);
+        buyBuffalo.setBounds(115,5,55,55);
+        buyBuffalo.setIcon(myPicture);
+        this.getContentPane().add(buyBuffalo);
+        buyBuffalo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("buffalo");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+
+        myPicture=loader.buyCatButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(55,55,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton buyCat=new JButton();
+        buyCat.setOpaque(false);
+        buyCat.setContentAreaFilled(false);
+        buyCat.setBorderPainted(false);
+        buyCat.setBounds(170,5,55,55);
+        buyCat.setIcon(myPicture);
+        this.getContentPane().add(buyCat);
+        buyCat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("cat");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+
+        myPicture=loader.buyDogButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(55,55,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton buyDog=new JButton();
+        buyDog.setOpaque(false);
+        buyDog.setContentAreaFilled(false);
+        buyDog.setBorderPainted(false);
+        buyDog.setBounds(225,5,55,55);
+        buyDog.setIcon(myPicture);
+        this.getContentPane().add(buyDog);
+        buyDog.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("dog");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
 
 
         //show animals show products
+
+
+
+
+
+        //plant
 
 
 
@@ -830,21 +1067,41 @@ public class Graphic extends JFrame{
 
 
 
-        //add mouse listener
 
-
+        myPicture=loader.pauseButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(100,50,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton pause=new JButton();
+        pause.setOpaque(false);
+        pause.setContentAreaFilled(false);
+        pause.setBorderPainted(false);
+        pause.setBounds(650,50,100,50);
+        pause.setIcon(myPicture);
+        this.getContentPane().add(pause);
+        pause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("click");
+                    pause();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
 
 
 
         myPicture=loader.turnButton;
         image=myPicture.getImage();
-        image=image.getScaledInstance(100,100,Image.SCALE_SMOOTH);
+        image=image.getScaledInstance(100,50,Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);
         JButton turn=new JButton();
         turn.setOpaque(false);
         turn.setContentAreaFilled(false);
         turn.setBorderPainted(false);
-        turn.setBounds(650,5,100,100);
+        turn.setBounds(650,5,100,50);
         turn.setIcon(myPicture);
         this.getContentPane().add(turn);
         turn.addActionListener(new ActionListener() {
@@ -852,7 +1109,103 @@ public class Graphic extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     playWav("click");
+                    //TODO
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+    }
 
+    public void pause(){
+        getContentPane().removeAll();
+        this.getRootPane().updateUI();
+        this.setLayout(null);
+        JLabel label=new JLabel();
+        label.setBounds(250,100,300,400);
+
+        ImageIcon myPicture=loader.woodButton;
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(300,400,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+
+        label.setIcon(myPicture);
+        getContentPane().add(label);
+
+
+        myPicture=loader.resumeButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(100,50,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton resume=new JButton();
+        resume.setOpaque(false);
+        resume.setContentAreaFilled(false);
+        resume.setBorderPainted(false);
+        resume.setBounds(100,120,100,50);
+        resume.setIcon(myPicture);
+        label.add(resume);
+        resume.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("click");
+                    getContentPane().removeAll();
+                    getRootPane().updateUI();
+                    setLayout(null);
+                    showComponent();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+
+        myPicture=loader.backButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(100,50,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton back=new JButton();
+        back.setOpaque(false);
+        back.setContentAreaFilled(false);
+        back.setBorderPainted(false);
+        back.setBounds(100,180,100,50);
+        back.setIcon(myPicture);
+        label.add(back);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("click");
+                    manager.logout();
+                    loadBackground();
+                    graphicProcessing();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
+
+        myPicture=loader.exitButton;
+        image=myPicture.getImage();
+        image=image.getScaledInstance(100,50,Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        JButton exit=new JButton();
+        exit.setOpaque(false);
+        exit.setContentAreaFilled(false);
+        exit.setBorderPainted(false);
+        exit.setBounds(100,240,100,50);
+        exit.setIcon(myPicture);
+        label.add(exit);
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    playWav("click");
+                    manager.exit();
+                    player.close();
+                    getContentPane().removeAll();
+                    dispose();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }

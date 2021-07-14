@@ -1,7 +1,9 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Locale;
 
 public class Loader {
     private String path;
@@ -15,6 +17,9 @@ public class Loader {
     public ImageIcon exitButton;
     public ImageIcon backButton;
     public ImageIcon turnButton;
+    public ImageIcon pauseButton;
+    public ImageIcon resumeButton;
+    public ImageIcon woodButton;
     public ImageIcon mapLevel1;
     public ImageIcon mapLevel2;
     public ImageIcon mapLevel3;
@@ -41,6 +46,31 @@ public class Loader {
     public ImageIcon wellFill3;
     public ImageIcon wellFill4;
     public ImageIcon wellFill5;
+    public ImageIcon storeRoom;
+    public ImageIcon wideButton;
+    public ImageIcon coin;
+    public ImageIcon woodSurface;
+    public ImageIcon time;
+    public ImageIcon egg;
+    public ImageIcon milk;
+    public ImageIcon packedMilk;
+    public ImageIcon feather;
+    public ImageIcon clothes;
+    public ImageIcon dress;
+    public ImageIcon iceCream;
+    public ImageIcon eggPowder;
+    public ImageIcon bread;
+    public ImageIcon chicken;
+    public ImageIcon turkey;
+    public ImageIcon buffalo;
+    public ImageIcon cat;
+    public ImageIcon dog;
+    public ImageIcon truck;
+    public ImageIcon buyChickenButton;
+    public ImageIcon buyTurkeyButton;
+    public ImageIcon buyBuffaloButton;
+    public ImageIcon buyCatButton;
+    public ImageIcon buyDogButton;
 
 
     public Loader(String path) throws IOException {
@@ -49,12 +79,21 @@ public class Loader {
         map=new ImageIcon(path+"\\resources\\GameUI\\map.png");
         backgroundMusic= new BufferedInputStream(new FileInputStream(path+"\\resources\\Music\\background.mp3"));
         gameIcon= ImageIO.read(new File(path+"\\resources\\GameUI\\GameIcon.jpg"));
-        loginButton=new ImageIcon(path+"\\resources\\GameUI\\button\\loginbutton.png");
-        signupButton=new ImageIcon(path+"\\resources\\GameUI\\button\\signupbutton.png");
-        startButton=new ImageIcon(path+"\\resources\\GameUI\\button\\startbutton.png");
-        exitButton=new ImageIcon(path+"\\resources\\GameUI\\button\\exitbutton.png");
-        backButton= new ImageIcon(path+"\\resources\\GameUI\\button\\backbutton.png");
-        turnButton=new ImageIcon(path+"\\resources\\GameUI\\button\\turnbutton.png");
+        loginButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wloginbutton.png");
+        signupButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wsignupbutton.png");
+        startButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wstartbutton.png");
+        exitButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wexitbutton.png");
+        backButton= new ImageIcon(path+"\\resources\\GameUI\\button\\wbackloginbutton.png");
+        turnButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wturnbutton.png");
+        pauseButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wpausebutton.png");
+        resumeButton=new ImageIcon(path+"\\resources\\GameUI\\button\\wresumebutton.png");
+        woodButton=new ImageIcon(path+"\\resources\\GameUI\\button\\woodbutton.png");
+        wideButton=new ImageIcon(path+"\\resources\\GameUI\\button\\widebutton.png");
+        buyChickenButton=new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\chickenbutton.png");
+        buyBuffaloButton=new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\buffalobutton.png");
+        buyCatButton=new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\catbutton.png");
+        buyDogButton=new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\dogbutton.png");
+        buyTurkeyButton=new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\turkeybutton.png");
         mapLevel1=new ImageIcon(path+"\\resources\\GameUI\\button\\level1.png");
         mapLevel2=new ImageIcon(path+"\\resources\\GameUI\\button\\level2.png");
         mapLevel3=new ImageIcon(path+"\\resources\\GameUI\\button\\level3.png");
@@ -81,6 +120,27 @@ public class Loader {
         wellFill3=new ImageIcon(path+"\\resources\\GameUI\\well\\full3.png");
         wellFill4=new ImageIcon(path+"\\resources\\GameUI\\well\\full4.png");
         wellFill5=new ImageIcon(path+"\\resources\\GameUI\\well\\full5.png");
+        storeRoom=new ImageIcon(path+"\\resources\\GameUI\\storeroom\\storeroom.png");
+        coin=new ImageIcon(path+"\\resources\\GameUI\\coin.png");
+        woodSurface=new ImageIcon(path+"\\resources\\GameUI\\button\\woodsurface.png");
+        time=new ImageIcon(path+"\\resources\\GameUI\\time.png");
+        truck=new ImageIcon(path+"\\resources\\GameUI\\truck\\truck.png");
+    }
 
+    public ImageIcon loadProductIcon(String name,int w,int h){
+        name.toLowerCase(Locale.ROOT);
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\Products\\"+name+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadAnimalIcon(String name,int w,int h){
+        name.toLowerCase(Locale.ROOT);
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\"+name+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
     }
 }

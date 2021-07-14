@@ -62,6 +62,15 @@ import java.util.Set;
     public WaterSupplying getWaterSupplying() {
             return waterSupplying;
     }
+    public Mission getMission() {
+            return mission;
+        }
+    public int getTimeIndex() {
+            return timeIndex;
+        }
+    public int getLevel() {
+            return level;
+        }
 
         //method
     public int login(String username,String password){
