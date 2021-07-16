@@ -13,6 +13,11 @@ public class Bear extends Animal{
         this.setPrice(400);
     }
 
+    @Override
+    public boolean isFull() {
+        return getHealth()==4;
+    }
+
     public int getLastTimeCaged() {
         return lastTimeCaged;
     }

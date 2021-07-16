@@ -19,6 +19,11 @@ public class Tiger extends Animal{
         this.lastPoint.setY(this.getPoint().getY());
     }
 
+    @Override
+    public boolean isFull() {
+        return getHealth()==4;
+    }
+
     public int getLastTimeCaged() {
         return lastTimeCaged;
     }

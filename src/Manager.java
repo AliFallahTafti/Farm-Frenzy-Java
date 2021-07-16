@@ -71,6 +71,24 @@ import java.util.Set;
     public int getLevel() {
             return level;
         }
+    public ArrayList<Animal> getAnimals() {
+            return animals;
+    }
+    public ArrayList<Product> getProducts() {
+            return products;
+        }
+    public ArrayList<Grass> getGrasses() {
+            return grasses;
+    }
+    public Storeroom getStoreroom() {
+            return storeroom;
+    }
+    public Truck getTruck() {
+            return truck;
+    }
+    public int getGameStatus() {
+            return gameStatus;
+    }
 
         //method
     public int login(String username,String password){
@@ -163,85 +181,80 @@ import java.util.Set;
         }
     }
 
-    public void buy(String name){
+    public int buy(String name){
         if(name.equals("CHICKEN")){
             Chicken chicken=new Chicken(timeIndex);
             if(this.user.getCoins()>=chicken.getPrice()) {
                 animals.add(chicken);
-                storeroom.getAnimals().add(chicken);
                 this.user.setCoins(this.user.getCoins()-chicken.getPrice());
                 updateMission(chicken);
-                System.out.println("YOU BUY A CHICKEN!");
                 logger.printInfo("YOU BUY A CHICKEN!");
+                return 1;
             }
             else {
-                System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
+                return 0;
             }
         }
         else if(name.equals("TURKEY")){
             Turkey turkey=new Turkey(timeIndex);
             if(this.user.getCoins()>=turkey.getPrice()) {
                 animals.add(turkey);
-                storeroom.getAnimals().add(turkey);
                 this.user.setCoins(this.user.getCoins()-turkey.getPrice());
                 updateMission(turkey);
-                System.out.println("YOU BUY A TURKEY!");
                 logger.printInfo("YOU BUY A TURKEY!");
+                return 1;
             }
             else {
-                System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
+                return 0;
             }
         }
         else if(name.equals("BUFFALO")){
             Buffalo buffalo=new Buffalo(timeIndex);
             if(this.user.getCoins()>=buffalo.getPrice()) {
                 animals.add(buffalo);
-                storeroom.getAnimals().add(buffalo);
                 this.user.setCoins(this.user.getCoins()-buffalo.getPrice());
                 updateMission(buffalo);
-                System.out.println("YOU BUY A BUFFALO!");
                 logger.printInfo("YOU BUY A BUFFALO!");
+                return 1;
             }
             else {
-                System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
+                return 0;
             }
         }
         else if(name.equals("CAT")) {
             Cat cat = new Cat();
             if (this.user.getCoins() >= cat.getPrice()) {
                 animals.add(cat);
-                storeroom.getAnimals().add(cat);
                 this.user.setCoins(this.user.getCoins() - cat.getPrice());
                 updateMission(cat);
-                System.out.println("YOU BUY A CAT!");
                 logger.printInfo("YOU BUY A CAT!");
+                return 1;
             }
             else{
-                System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
+                return 0;
             }
         }
         else if(name.equals("DOG")){
             Dog dog=new Dog();
             if(this.user.getCoins()>=dog.getPrice()) {
                 animals.add(dog);
-                storeroom.getAnimals().add(dog);
                 this.user.setCoins(this.user.getCoins()-dog.getPrice());
                 updateMission(dog);
-                System.out.println("YOU BUY A DOG!");
                 logger.printInfo("YOU BUY A DOG!");
+                return 1;
             }
             else {
-                System.out.println("NO ENOUGH MONEY!");
                 logger.printError("NO ENOUGH MONEY!");
+                return 0;
             }
         }
         else {
-            System.out.println("THERE ISN'T ANY ANIMAL WITH NAME :" + name);
             logger.printAlarm("THERE ISN'T ANY ANIMAL WITH NAME :" + name);
+            return 0;
         }
     }
 
@@ -254,30 +267,36 @@ import java.util.Set;
                     storeroom.setCapacity(storeroom.getCapacity() - products.get(i).getCapacity());
                     products.remove(i);
                     logger.printInfo("THE PRODUCT WAS PICKED UP!");
-                    System.out.println("THE PRODUCT WAS PICKED UP!");
                     return 1;
+                }else{
+                    logger.printError("THE STOREROOM IS FULL!");
+                    return 0;
                 }
             }
         }
         logger.printError("THERE ISN'T ANY PRODUCT!");
-        System.out.println("THERE ISN'T ANY PRODUCT!");
         return 0;
     }
 
-    public void plant(int x,int y){
+    public int plant(int x,int y,int numOfNeighbor){
         if(this.waterSupplying.getCapacity()>0) {
             Grass grass = new Grass(x, y);
+            grass.setNumOfNeighbor(numOfNeighbor);
             this.grasses.add(grass);
             this.waterSupplying.unFill();
-            System.out.println("YOU PLANT A GRASS!");
             logger.printInfo("YOU PLANT A GRASS!");
+            return 1;
         }else {
-            System.out.println("NO ENOUGH WATER!");
             logger.printError("NO ENOUGH WATER!");
+            return 0;
         }
     }
 
     public int well(){
+        if(waterSupplying.isOrder()){
+            logger.printError("THE WELL IS WORKING");
+            return 0;
+        }
         if(waterSupplying.getCapacity()!=0) {
             logger.printError("THE WELL ISN'T EMPTY");
             return 0;
@@ -288,94 +307,74 @@ import java.util.Set;
         }
     }
 
-    public int build(String name){
-        for (int i = 0; i < this.factories.size(); i++) {
-            if(factories.get(i).getName().equals(name)){
-                logger.printError("ALREADY THERE IS A FACTORY WITH NAME "+name);
-                System.out.println("ALREADY THERE IS A FACTORY WITH NAME "+name);
-                return 0;
-            }
-        }
-        if(name.equals("BAKERY")){
-            Bakery bakery=new Bakery();
+    public int build(String name,int x,int y){
+        if(name.equals("BREAD")){
+            Bakery bakery=new Bakery(x,y);
             if(this.user.getCoins()>=bakery.getPrice()){
                 this.user.setCoins(this.user.getCoins()-bakery.getPrice());
                 factories.add(bakery);
-                System.out.println("YOU BUILD A BAKERY");
                 logger.printInfo("YOU BUILD A BAKERY");
                 return 1;
             }else{
-                System.out.println("NO ENOUGH MONEY");
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
-        }else if(name.equals("POWDERPLANT")){
-            PowderPlant powderPlant=new PowderPlant();
+        }else if(name.equals("POWDER")){
+            PowderPlant powderPlant=new PowderPlant(x,y);
             if(this.user.getCoins()>=powderPlant.getPrice()){
                 this.user.setCoins(this.user.getCoins()-powderPlant.getPrice());
                 factories.add(powderPlant);
-                System.out.println("YOU BUILD A POWDERPLANT");
                 logger.printInfo("YOU BUILD A POWDERPLANT");
                 return 1;
             }else{
-                System.out.println("NO ENOUGH MONEY");
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
-        }else if(name.equals("ICECREAMFACTORY")){
-            IceCreamFactory iceCreamFactory=new IceCreamFactory();
+        }else if(name.equals("ICECREAM")){
+            IceCreamFactory iceCreamFactory=new IceCreamFactory(x,y);
             if(this.user.getCoins()>=iceCreamFactory.getPrice()){
                 this.user.setCoins(this.user.getCoins()-iceCreamFactory.getPrice());
                 factories.add(iceCreamFactory);
-                System.out.println("YOU BUILD A ICECREAMFACTORY");
                 logger.printInfo("YOU BUILD A ICECREAMFACTORY");
                 return 1;
             }else{
-                System.out.println("NO ENOUGH MONEY");
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
-        }else if(name.equals("WEAVING")){
-            Weaving weaving=new Weaving();
+        }else if(name.equals("CLOTHES")){
+            Weaving weaving=new Weaving(x,y);
             if(this.user.getCoins()>=weaving.getPrice()){
                 this.user.setCoins(this.user.getCoins()-weaving.getPrice());
                 factories.add(weaving);
-                System.out.println("YOU BUILD A WEAVING");
                 logger.printInfo("YOU BUILD A WEAVING");
                 return 1;
             }else{
-                System.out.println("NO ENOUGH MONEY");
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
-        }else if(name.equals("SEWING")){
-            Sewing sewing=new Sewing();
+        }else if(name.equals("DRESS")){
+            Sewing sewing=new Sewing(x,y);
             if(this.user.getCoins()>=sewing.getPrice()){
                 this.user.setCoins(this.user.getCoins()-sewing.getPrice());
                 factories.add(sewing);
-                System.out.println("YOU BUILD A SEWING");
                 logger.printInfo("YOU BUILD A SEWING");
                 return 1;
             }else{
-                System.out.println("NO ENOUGH MONEY");
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
-        }else if(name.equals("MILKPACKING")){
-            MilkPacking milkPacking=new MilkPacking();
+        }else if(name.equals("PACKEDMILK")){
+            MilkPacking milkPacking=new MilkPacking(x,y);
             if(this.user.getCoins()>=milkPacking.getPrice()){
                 this.user.setCoins(this.user.getCoins()-milkPacking.getPrice());
                 factories.add(milkPacking);
-                System.out.println("YOU BUILD A MILKPACKING");
                 logger.printInfo("YOU BUILD A MILKPACKING");
                 return 1;
             }else{
-                System.out.println("NO ENOUGH MONEY");
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
         }else{
-            System.out.println("INVALID FACTORY NAME!");
             logger.printError("INVALID FACTORY NAME!");
             return 0;
         }
@@ -384,28 +383,27 @@ import java.util.Set;
     public int work(String name){
         int index1=-1,index2=-1;
         for (int i = 0; i < factories.size(); i++) {
-            if(factories.get(i).getName().equals(name)&&!factories.get(i).isOrder()){
+            if(factories.get(i).getOutputProduct().equals(name)&&!factories.get(i).isOrder()){
                 for (int j = 0; j < storeroom.getProducts().size(); j++) {
                     if(!factories.get(i).isUpgrade()&&storeroom.getProducts().get(j).getName().equals(factories.get(i).getInputProduct())){
                         factories.get(i).setTimeToOrder(timeIndex);
                         factories.get(i).setOrder(true);
+                        storeroom.setCapacity(storeroom.getCapacity()+storeroom.getProducts().get(j).getCapacity());
                         storeroom.getProducts().remove(j);
                         logger.printInfo(name+" FACTORY STARTS WORKING!");
-                        System.out.println(name+" FACTORY STARTS WORKING!");
                         return 1;
                     }else if(factories.get(i).isUpgrade()&&storeroom.getProducts().get(j).getName().equals(factories.get(i).getInputProduct())){
                         if(index1==-1)
-                            index1=i;
+                            index1=j;
                         else if(index2==-1)
-                            index2=i;
+                            index2=j;
                     }
                 }
-            }else if(factories.get(i).getName().equals(name)&&factories.get(i).isOrder()){
+            }else if(factories.get(i).getOutputProduct().equals(name)&&factories.get(i).isOrder()){
                 logger.printError("THE "+name+" IS ALREADY WORKING!");
-                System.out.println("THE "+name+" IS ALREADY WORKING!");
                 return 0;
             }
-            if(factories.get(i).getName().equals(name)&&factories.get(i).isUpgrade()){
+            if(factories.get(i).getOutputProduct().equals(name)&&factories.get(i).isUpgrade()){
                 if(index1!=-1&&index2!=-1){
                     factories.get(i).setTimeToOrder(timeIndex);
                     if(factories.get(i).getUpgradeMood()==2)
@@ -413,14 +411,15 @@ import java.util.Set;
                     factories.get(i).setOrder(true);
                     factories.get(i).setUpgradeMood(1);
                     if(index1<index2) {
+                        storeroom.setCapacity(storeroom.getCapacity()+storeroom.getProducts().get(index1).getCapacity()+storeroom.getProducts().get(index2).getCapacity());
                         storeroom.getProducts().remove(index2);
                         storeroom.getProducts().remove(index1);
                     }else{
+                        storeroom.setCapacity(storeroom.getCapacity()+storeroom.getProducts().get(index1).getCapacity()+storeroom.getProducts().get(index2).getCapacity());
                         storeroom.getProducts().remove(index1);
                         storeroom.getProducts().remove(index2);
                     }
                     logger.printInfo(name+" FACTORY STARTS WORKING!");
-                    System.out.println(name+" FACTORY STARTS WORKING!");
                     return 1;
                 }else if(index1!=-1&&index2==-1){
                     factories.get(i).setTimeToOrder(timeIndex);
@@ -428,36 +427,32 @@ import java.util.Set;
                     factories.get(i).setTimeToProduce(factories.get(i).getTimeToProduce()/2);
                     factories.get(i).setOrder(true);
                     factories.get(i).setUpgradeMood(2);
+                    storeroom.setCapacity(storeroom.getCapacity()+storeroom.getProducts().get(index1).getCapacity());
                     storeroom.getProducts().remove(index1);
                     logger.printInfo(name+" FACTORY STARTS WORKING!");
-                    System.out.println(name+" FACTORY STARTS WORKING!");
                     return 1;
                 }
             }
         }
         logger.printError("INVALID FACTORY NAME OR NO INPUT PRODUCT!");
-        System.out.println("INVALID FACTORY NAME OR NO INPUT PRODUCT!");
         return 0;
     }
 
     public int upgrade(String name){
         for (int i = 0; i < factories.size(); i++) {
-            if (factories.get(i).getName().equals(name)) {
+            if (factories.get(i).getOutputProduct().equals(name)) {
                 if(factories.get(i).getUpgradePrice()<=this.user.getCoins()) {
                     factories.get(i).upgrade();
                     this.user.setCoins(this.user.getCoins()-factories.get(i).getUpgradePrice());
                     logger.printInfo(name+" FACTORY IS UPGRADED!");
-                    System.out.println(name+" FACTORY IS UPGRADED!");
                     return 1;
                 }else{
                     logger.printError("NO ENOUGH MONEY!");
-                    System.out.println("NO ENOUGH MONEY!");
                     return 0;
                 }
             }
         }
         logger.printError("THERE ISN'T ANY FACTORY WITH NAME "+name);
-        System.out.println("THERE ISN'T ANY FACTORY WITH NAME "+name);
         return 0;
     }
 
@@ -468,15 +463,15 @@ import java.util.Set;
                     if(animals.get(i).getHealth()==1){
                         if(storeroom.getCapacity()>=animals.get(i).getCapacity()) {
                             storeroom.getAnimals().add(animals.get(i));
+                            storeroom.setCapacity(storeroom.getCapacity()-animals.get(i).getCapacity());
                             logger.printInfo("YOU KILLED THE ENEMY!");
-                            System.out.println("YOU KILLED THE ENEMY!");
                             animals.remove(i);
                             --i;
                             if(i<0)
                                 i=0;
                         }else{
                             logger.printError("NO ENOUGH ROOM!");
-                            System.out.println("NO ENOUGH ROOM!");
+                            return 0;
                         }
                     }else {
                         animals.get(i).setHealth(animals.get(i).getHealth() - 1);
@@ -486,7 +481,6 @@ import java.util.Set;
                             ((Lion)animals.get(i)).setLastTimeCaged(timeIndex);
                         else if(animals.get(i).getName().equals("TIGER"))
                             ((Tiger)animals.get(i)).setLastTimeCaged(timeIndex);
-                        System.out.println("YOU ATTACKED THE ENEMY");
                         logger.printInfo("YOU ATTACKED THE ENEMY");
                     }
                     return 1;
@@ -494,7 +488,6 @@ import java.util.Set;
             }
         }
         logger.printError("THERE ISN'T ANY ENEMIES THERE!");
-        System.out.println("THERE ISN'T ANY ENEMIES THERE!");
         return 0;
     }
 
@@ -523,37 +516,39 @@ import java.util.Set;
     }
 
     public void UpdateWildAnimals(int n){
-        Set<String> wildAnimals=mission.wildAnimals.keySet();
-        String name="";
-        for(String wildAnimal: wildAnimals){
-            if(mission.wildAnimals.get(wildAnimal)<=timeIndex){
-                if(wildAnimal.equals("BEAR")){
-                    name="BEAR";
+        for (int i = 0; i < mission.wildAnimals.size(); i++) {
+            if(mission.wildAnimals.get(i).getTime()<=timeIndex){
+                if(mission.wildAnimals.get(i).getName().equals("BEAR")){
                     Bear bear=new Bear();
                     this.animals.add(bear);
+                    mission.wildAnimals.remove(i);
+                    --i;
                     logger.printInfo("ENEMY IS ATTACKING");
-                }else if(wildAnimal.equals("LION")){
-                    name="LION";
+                }else if(mission.wildAnimals.get(i).getName().equals("LION")){
                     Lion lion=new Lion();
                     this.animals.add(lion);
+                    mission.wildAnimals.remove(i);
+                    --i;
                     logger.printInfo("ENEMY IS ATTACKING");
-                }else if(wildAnimal.equals("TIGER")){
-                    name="TIGER";
+                }else if(mission.wildAnimals.get(i).getName().equals("TIGER")){
                     Tiger tiger=new Tiger();
                     this.animals.add(tiger);
+                    mission.wildAnimals.remove(i);
+                    --i;
                     logger.printInfo("ENEMY IS ATTACKING");
                 }
             }
         }
-        if(!name.equals("")){
-           mission.wildAnimals.remove(name);
-        }
+
         for (int i = 0; i < this.animals.size(); i++) {
             if((animals.get(i).getName().equals("BEAR")&&((Bear)animals.get(i)).getLastTimeCaged()!=timeIndex-1)||(animals.get(i).getName().equals("LION")&&((Lion)animals.get(i)).getLastTimeCaged()!=timeIndex-1)
             ||(animals.get(i).getName().equals("TIGER")&&((Tiger)animals.get(i)).getLastTimeCaged()!=timeIndex-1)){
                 animals.get(i).setHealth(animals.get(i).getHealth()+n);
-                if(animals.get(i).getHealth()>4)
+                if(!animals.get(i).getName().equals("LION")&&animals.get(i).getHealth()>4)
                     animals.get(i).setHealth(4);
+                else if(animals.get(i).getName().equals("LION")&&animals.get(i).getHealth()>3){
+                    animals.get(i).setHealth(3);
+                }
             }
         }
     }
@@ -1110,9 +1105,23 @@ import java.util.Set;
                 switch (factories.get(i).getOutputProduct()){
                     case "POWDER":
                         Powder powder=new Powder(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            powder.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            powder.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            powder.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            powder.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
                         products.add(powder);
-                        if(factories.get(i).getUpgradeMood()==1){
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1){
                             Powder powder1=new Powder(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                powder1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                powder1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                powder1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                powder1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
                             products.add(powder1);
                         }
                         logger.printInfo("POWDER PLANT MADE A POWDER");
@@ -1120,9 +1129,23 @@ import java.util.Set;
 
                     case "BREAD":
                         Bread bread=new Bread(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            bread.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            bread.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            bread.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            bread.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
                         products.add(bread);
-                        if(factories.get(i).getUpgradeMood()==1){
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1){
                             Bread bread1=new Bread(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                bread1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                bread1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                bread1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                bread1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
                             products.add(bread1);
                         }
                         logger.printInfo("BAKERY MADE A BREAD");
@@ -1130,9 +1153,23 @@ import java.util.Set;
 
                     case "PACKEDMILK":
                         PackedMilk packedMilk=new PackedMilk(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            packedMilk.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            packedMilk.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            packedMilk.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            packedMilk.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
                         products.add(packedMilk);
-                        if(factories.get(i).getUpgradeMood()==1) {
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1) {
                             PackedMilk packedMilk1=new PackedMilk(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                packedMilk1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                packedMilk1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                packedMilk1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                packedMilk1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
                             products.add(packedMilk1);
                         }
                         logger.printInfo("MILK PACKING MADE A PACKED MILK");
@@ -1140,9 +1177,23 @@ import java.util.Set;
 
                     case "DRESS":
                         Dress dress=new Dress(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            dress.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            dress.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            dress.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            dress.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
                         products.add(dress);
-                        if(factories.get(i).getUpgradeMood()==1) {
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1) {
                             Dress dress1=new Dress(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                dress1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                dress1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                dress1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                dress1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
                             products.add(dress1);
                         }
                         logger.printInfo("SEWING MADE A DRESS");
@@ -1150,9 +1201,23 @@ import java.util.Set;
 
                     case "CLOTHES":
                         Clothes clothes=new Clothes(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            clothes.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            clothes.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            clothes.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            clothes.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
                         products.add(clothes);
-                        if(factories.get(i).getUpgradeMood()==1) {
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1) {
                             Clothes clothes1=new Clothes(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                clothes1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                clothes1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                clothes1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                clothes1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
                             products.add(clothes);
                         }
                         logger.printInfo("WEAVING MADE A CLOTHE");
@@ -1160,9 +1225,23 @@ import java.util.Set;
 
                     case "ICECREAM":
                         IceCream iceCream=new IceCream(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            iceCream.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            iceCream.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            iceCream.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            iceCream.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
                         products.add(iceCream);
-                        if(factories.get(i).getUpgradeMood()==1) {
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1) {
                             IceCream iceCream1=new IceCream(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                iceCream1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                iceCream1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                iceCream1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                iceCream1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
                             products.add(iceCream1);
                         }
                         logger.printInfo("ICE CREAM FACTORY MADE AN ICE CREAM");
@@ -1180,7 +1259,7 @@ import java.util.Set;
                 if ((animals.get(i).getName().equals("CAT") && products.isEmpty()) || (animals.get(i).getName().equals("CHICKEN") && grasses.isEmpty()) ||
                         (animals.get(i).getName().equals("TURKEY") && grasses.isEmpty()) || (animals.get(i).getName().equals("BUFFALO") && grasses.isEmpty())
                         || animals.get(i).getName().equals("BEAR") || animals.get(i).getName().equals("LION") || animals.get(i).getName().equals("TIGER") || animals.get(i).getName().equals("DOG")
-                        ||(animals.get(i).getName().equals("CHICKEN")&&animals.get(i).getHealth()>=50)||(animals.get(i).getName().equals("BUFFALO")&&animals.get(i).getHealth()>=50)||(animals.get(i).getName().equals("TURKEY")&&animals.get(i).getHealth()>=50)
+                        ||(animals.get(i).getName().equals("CHICKEN")&&animals.get(i).getHealth()>=70)||(animals.get(i).getName().equals("BUFFALO")&&animals.get(i).getHealth()>=70)||(animals.get(i).getName().equals("TURKEY")&&animals.get(i).getHealth()>=70)
                 ) {
                     animals.get(i).randWalk();
                 } else
@@ -1191,7 +1270,7 @@ import java.util.Set;
                 if (i!=animals.size()&&(animals.get(i).getName().equals("BEAR") || animals.get(i).getName().equals("LION") || animals.get(i).getName().equals("TIGER"))) {
                     for (int i1 = 0; i1 < this.animals.size(); i1++) {
                             if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
-                                if (animals.get(i).getPoint().isEqual(animals.get(i1).getPoint())) {
+                                if (animals.get(i).getPoint().isNear(animals.get(i1).getPoint(),25)) {
                                     logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
                                     animals.remove(i1);
                                     if(i1<i){
@@ -1204,7 +1283,7 @@ import java.util.Set;
                                         i1=0;
                                 }
                             } else if (i1!=animals.size()&&animals.get(i1).getName().equals("DOG")) {
-                                if (animals.get(i).getPoint().isEqual(animals.get(i1).getPoint())) {
+                                if (animals.get(i).getPoint().isNear(animals.get(i1).getPoint(),25)) {
                                     logger.printInfo(animals.get(i).getName()+" FIGHT WITH " + animals.get(i1).getName());
                                     animals.remove(i1);
                                     if(i1<i){
@@ -1222,7 +1301,7 @@ import java.util.Set;
                                 }
                             }
                             if (animals.get(i).getName().equals("TIGER")) {
-                                if (((Tiger) animals.get(i)).getLastPoint().isEqual(animals.get(i1).getPoint())) {
+                                if (((Tiger) animals.get(i)).getLastPoint().isNear(animals.get(i1).getPoint(),25)) {
                                     if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
                                         logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
                                         animals.remove(i1);
@@ -1283,10 +1362,10 @@ import java.util.Set;
                 if (i!=animals.size()&&animals.get(i).getHealth()<=50&&(animals.get(i).getName().equals("CHICKEN") || animals.get(i).getName().equals("TURKEY") || animals.get(i).getName().equals("BUFFALO"))) {
                     int minHealth = animals.get(i).getHealth();
                     for (int i1 = 0; i1 < grasses.size(); i1++) {
-                        if (grasses.get(i1).getPoint().isEqual(animals.get(i).getPoint())) {
+                        if (grasses.get(i1).getPoint().isNear(animals.get(i).getPoint(),15)) {
                             for (int i2 = 0; i2 < animals.size(); i2++) {
                                 if (animals.get(i2).getName().equals("CHICKEN") || animals.get(i2).getName().equals("TURKEY") || animals.get(i2).getName().equals("BUFFALO")) {
-                                    if (grasses.get(i1).getPoint().isEqual(animals.get(i2).getPoint())) {
+                                    if (grasses.get(i1).getPoint().isNear(animals.get(i2).getPoint(),15)) {
                                         if (minHealth < animals.get(i2).getHealth()) {
                                             minHealth = animals.get(i2).getHealth();
                                         }
@@ -1299,7 +1378,7 @@ import java.util.Set;
                     for (int i1 = 0; i1 < animals.size(); i1++) {
                         for (int i2 = 0; i2 < grasses.size(); i2++) {
                             if (animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO")) {
-                                if (animals.get(i1).getHealth() == minHealth && animals.get(i1).getPoint().isEqual(grasses.get(i2).getPoint())) {
+                                if (animals.get(i1).getHealth() == minHealth && animals.get(i1).getPoint().isNear(grasses.get(i2).getPoint(),15)) {
                                     grasses.remove(i2);
                                     --i2;
                                     if(i2<0)
@@ -1314,13 +1393,16 @@ import java.util.Set;
                 //cat
                 if (i!=animals.size()&&animals.get(i).getName().equals("CAT")) {
                     for (int i1 = 0; i1 < this.products.size(); i1++) {
-                        if (animals.get(i).getPoint().isEqual(products.get(i1).getPoint())) {
-                            storeroom.getProducts().add(products.get(i1));
-                            updateMission(products.get(i1));
-                            products.remove(i1);
-                            --i1;
-                            if(i1<0)
-                                i1=0;
+                        if (animals.get(i).getPoint().isNear(products.get(i1).getPoint(),15)) {
+                            if(storeroom.getCapacity()>=products.get(i1).getCapacity()) {
+                                storeroom.setCapacity(storeroom.getCapacity()-storeroom.getCapacity());
+                                storeroom.getProducts().add(products.get(i1));
+                                updateMission(products.get(i1));
+                                products.remove(i1);
+                                --i1;
+                                if (i1 < 0)
+                                    i1 = 0;
+                            }
                         }
                     }
                 }
@@ -1395,11 +1477,9 @@ import java.util.Set;
                         storeroom.setCapacity(storeroom.getCapacity() + storeroom.getProducts().get(i).getCapacity());
                         storeroom.getProducts().remove(i);
                         logger.printInfo("YOU LOAD " + name);
-                        System.out.println("YOU LOAD " + name);
                         return 1;
                     } else {
                         logger.printError("NO ENOUGH ROOM!");
-                        System.out.println("NO ENOUGH ROOM!");
                         return 0;
                     }
                 }
@@ -1412,21 +1492,17 @@ import java.util.Set;
                             storeroom.setCapacity(storeroom.getCapacity() + storeroom.getAnimals().get(i).getCapacity());
                         storeroom.getAnimals().remove(i);
                         logger.printInfo("YOU LOAD " + name);
-                        System.out.println("YOU LOAD " + name);
                         return 1;
                     } else {
                         logger.printError("NO ENOUGH ROOM!");
-                        System.out.println("NO ENOUGH ROOM!");
                         return 0;
                     }
                 }
             }
             logger.printError("THERE ISN'T ANY " + name);
-            System.out.println("THERE ISN'T ANY " + name);
             return 0;
         }else{
             logger.printError("THE TRUCK IS ON WAY");
-            System.out.println("THE TRUCK IS ON WAY");
             return 0;
         }
     }
@@ -1443,7 +1519,6 @@ import java.util.Set;
                         if (i < 0)
                             i = 0;
                         logger.printInfo("YOU UNLOAD " + name);
-                        System.out.println("YOU UNLOAD " + name);
                         return 1;
                     }
                 }
@@ -1460,29 +1535,30 @@ import java.util.Set;
                         if (i < 0)
                             i = 0;
                         logger.printInfo("YOU UNLOAD " + name);
-                        System.out.println("YOU UNLOAD " + name);
                         return 1;
                     }
                 }
             }
             logger.printError("THERE ISN'T ANY " + name);
-            System.out.println("THERE ISN'T ANY " + name);
             return 0;
         }else{
             logger.printError("THE TRUCK IS ON WAY");
-            System.out.println("THE TRUCK IS ON WAY");
             return 0;
         }
     }
-    public void truckGo(){
+    public int truckGo(){
+        if(truck.getCapacity()==15){
+            logger.printError("THE TRUCK ISN'T LOADED");
+            return 0;
+        }
         if(!this.truck.isOrder()) {
             this.truck.setTimeToOrder(timeIndex);
             this.truck.setOrder(true);
             logger.printInfo("THE TRUCK IS GONE!");
-            System.out.println("THE TRUCK IS GONE!");
+            return 1;
         }else{
             logger.printError("THE TRUCK IS ON WAY");
-            System.out.println("THE TRUCK IS ON WAY");
+            return 0;
         }
     }
     public void logout(){
@@ -1537,17 +1613,15 @@ import java.util.Set;
     }
     public void printStatus(){
         if(gameStatus==0) {
-            System.out.println("GAME OVER!");
             logger.printInfo("GAME OVER!");
         }
         else if(gameStatus==2) {
-            System.out.println("VICTORY!");
             logger.printInfo("VICTORY!");
         }
     }
     public void updateGame(){
         checkStatus();
-        printStatus();
+        //printStatus();
     }
 
 

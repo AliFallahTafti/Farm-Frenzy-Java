@@ -3,9 +3,16 @@
     "coin": 500,
     "time": 20,
     "level": 1,
-    "wildAnimals": {
-      "BEAR": 4
-    },
+    "wildAnimals": [
+      {
+        "time": 2,
+        "name": "BEAR"
+      },
+      {
+        "time": 4,
+        "name": "BEAR"
+      }
+    ],
     "productTasks": {
       "EGG": 6
     },
@@ -16,11 +23,23 @@
     "coin": 150,
     "time": 20,
     "level": 2,
-    "wildAnimals": {
-      "BEAR": 4
-    },
+    "wildAnimals": [
+      {
+        "time": 2,
+        "name": "BEAR"
+      },
+      {
+        "time": 4,
+        "name": "BEAR"
+      },
+      {
+        "time": 6,
+        "name": "BEAR"
+      }
+    ],
     "productTasks": {
-      "EGG": 2
+      "BREAD": 2,
+      "POWDER": 2
     },
     "animalTask": {
       "CHICKEN": 2
@@ -28,49 +47,80 @@
     "stars": 100
   },
   {
-    "coin": 200,
+    "coin": 600,
     "time": 30,
     "level": 3,
-    "wildAnimals": {
-      "BEAR": 2,
-      "TIGER": 4,
-      "LION": 8
-    },
+    "wildAnimals": [
+      {
+        "time": 2,
+        "name": "BEAR"
+      },
+      {
+        "time": 6,
+        "name": "BEAR"
+      },
+      {
+        "time": 6,
+        "name": "LION"
+      }
+    ],
     "productTasks": {
-      "POWDER": 2
+      "PACKEDMILK": 2,
+      "ICECREAM": 2,
+      "MILK": 2
     },
     "animalTask": {},
     "stars": 100
   },
   {
-    "coin": 400,
+    "coin": 600,
     "time": 40,
     "level": 4,
-    "wildAnimals": {
-      "BEAR": 4,
-      "TIGER": 10,
-      "LION": 12
-    },
+    "wildAnimals": [
+      {
+        "time": 2,
+        "name": "BEAR"
+      },
+      {
+        "time": 4,
+        "name": "BEAR"
+      },
+      {
+        "time": 8,
+        "name": "LION"
+      }
+    ],
     "productTasks": {
-      "POWDER": 4
+      "DRESS": 3,
+      "CLOTHES": 3
     },
     "animalTask": {
-      "CHICKEN": 4
+      "TURKEY": 2
     },
     "stars": 100
   },
   {
-    "coin": 100,
+    "coin": 600,
     "time": 40,
     "level": 5,
-    "wildAnimals": {
-      "BEAR": 2,
-      "TIGER": 12,
-      "LION": 8
-    },
+    "wildAnimals": [
+      {
+        "time": 4,
+        "name": "BEAR"
+      },
+      {
+        "time": 6,
+        "name": "LION"
+      },
+      {
+        "time": 8,
+        "name": "LION"
+      }
+    ],
     "productTasks": {
-      "BREAD": 3,
-      "POWDER": 3
+      "BREAD": 4,
+      "PACKEDMILK": 6,
+      "POWDER": 4
     },
     "animalTask": {},
     "stars": 100

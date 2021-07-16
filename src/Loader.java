@@ -71,6 +71,14 @@ public class Loader {
     public ImageIcon buyBuffaloButton;
     public ImageIcon buyCatButton;
     public ImageIcon buyDogButton;
+    public ImageIcon grass4;
+    public ImageIcon grass1;
+    public ImageIcon grass2;
+    public ImageIcon grass3;
+    public ImageIcon storeRoomBack;
+    public ImageIcon upgrade;
+    public ImageIcon gameOver;
+    public ImageIcon victory;
 
 
     public Loader(String path) throws IOException {
@@ -125,8 +133,18 @@ public class Loader {
         woodSurface=new ImageIcon(path+"\\resources\\GameUI\\button\\woodsurface.png");
         time=new ImageIcon(path+"\\resources\\GameUI\\time.png");
         truck=new ImageIcon(path+"\\resources\\GameUI\\truck\\truck.png");
+        storeRoomBack=new ImageIcon(path+"\\resources\\GameUI\\storeroom\\storeroommenu.png");
+        upgrade=new ImageIcon(path+"\\resources\\Workshop\\button\\upgrade.png");
+        gameOver=new ImageIcon(path+"\\resources\\GameUI\\button\\gameover.png");
+        victory=new ImageIcon(path+"\\resources\\GameUI\\button\\victory.png");
     }
 
+    public ImageIcon loadUpgrade(int w,int h){
+        Image image=upgrade.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        upgrade=new ImageIcon(image);
+        return upgrade;
+    }
     public ImageIcon loadProductIcon(String name,int w,int h){
         name.toLowerCase(Locale.ROOT);
         ImageIcon myPicture=  new ImageIcon(path+"\\resources\\Products\\"+name+".png");
@@ -138,6 +156,63 @@ public class Loader {
     public ImageIcon loadAnimalIcon(String name,int w,int h){
         name.toLowerCase(Locale.ROOT);
         ImageIcon myPicture=  new ImageIcon(path+"\\resources\\GameUI\\button\\animals\\"+name+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadAnimal(String name,int state,int w,int h){
+        name.toLowerCase(Locale.ROOT);
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\Animal\\"+name+"\\"+state+".png");
+        Image image=myPicture.getImage();
+        image = image.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadGrass(int count,int w,int h){
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\GameUI\\grass\\grass"+(count+1)+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadFactory(String name,int w,int h){
+        name.toLowerCase(Locale.ROOT);
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\Workshop\\"+name+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }    public ImageIcon loadFactoryIcon(String name,int w,int h){
+        name.toLowerCase(Locale.ROOT);
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\Workshop\\button\\"+name+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadUpgradeFactory(String name,int w,int h){
+        name.toLowerCase(Locale.ROOT);
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\Workshop\\"+name+"update.png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadProgress(int i,int w,int h){
+        int c=i%20;
+        if(c!=0){
+            c=i/20+1;
+        }else
+            c=i/20;
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\progress\\"+c+".png");
+        Image image=myPicture.getImage();
+        image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
+        myPicture=new ImageIcon(image);
+        return myPicture;
+    }
+    public ImageIcon loadCage(int i,int w,int h){
+        ImageIcon myPicture=  new ImageIcon(path+"\\resources\\cage\\"+(4-i)+".png");
         Image image=myPicture.getImage();
         image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);
         myPicture=new ImageIcon(image);

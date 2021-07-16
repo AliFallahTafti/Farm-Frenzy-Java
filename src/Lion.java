@@ -15,6 +15,11 @@ public class Lion extends Animal{
         this.capacity=5;
     }
 
+    @Override
+    public boolean isFull() {
+        return getHealth()==3;
+    }
+
     public int getLastTimeCaged() {
         return lastTimeCaged;
     }

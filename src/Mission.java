@@ -10,13 +10,13 @@ public class Mission {
     public int coin;
     public int time;
     public int level;
-    public HashMap<String ,Integer> wildAnimals;
+    public ArrayList<WildAnimal>wildAnimals;
     public HashMap<String ,Integer> productTasks;
     public HashMap<String ,Integer> animalTask;
     public int stars;
 
     public Mission(){
-        wildAnimals= new HashMap<>();
+        wildAnimals=new ArrayList<>();
         productTasks=new HashMap<>();
         animalTask=new HashMap<>();
     }
@@ -26,7 +26,7 @@ public class Mission {
         Mission mission=new Mission();
         mission.productTasks= (HashMap<String, Integer>) this.productTasks.clone();
         mission.animalTask= (HashMap<String, Integer>) this.animalTask.clone();
-        mission.wildAnimals= (HashMap<String, Integer>) this.wildAnimals.clone();
+        mission.wildAnimals= (ArrayList<WildAnimal>) this.wildAnimals.clone();
         mission.coin=this.coin;
         mission.time=this.time;
         mission.stars=this.stars;

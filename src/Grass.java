@@ -1,6 +1,7 @@
 public class Grass {
 
     private Point point;
+    private int numOfNeighbor;
 
     public Grass(int x,int y){
 
@@ -12,5 +13,13 @@ public class Grass {
     public Point getPoint() {
 
         return point;
+    }
+
+    public int getNumOfNeighbor() {
+        return numOfNeighbor;
+    }
+
+    public void setNumOfNeighbor(int numOfNeighbor) {
+        this.numOfNeighbor = numOfNeighbor;
     }
 }

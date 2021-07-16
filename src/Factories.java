@@ -10,12 +10,13 @@ public class Factories {
     private boolean order;
     private int upgradeMood;  //0 not   1 mood a   2 mood b
     private boolean upgrade;
+    private Point point;
 
     public int getTimeToProduce() {
         return timeToProduce;
     }
 
-    public Factories(int price, int timeToProduce,String name,String inputProduct,String outputProduct) {
+    public Factories(int price, int timeToProduce,String name,String inputProduct,String outputProduct,int x,int y) {
 
         this.price = price;
         this.timeToProduce = timeToProduce;
@@ -27,6 +28,9 @@ public class Factories {
         this.order=false;
         this.inputProduct=inputProduct;
         this.outputProduct=outputProduct;
+        this.point=new Point();
+        this.point.setX(x);
+        this.point.setY(y);
     }
 
     public int getPrice() {
@@ -79,6 +83,10 @@ public class Factories {
 
     public boolean isUpgrade() {
         return upgrade;
+    }
+
+    public Point getPoint() {
+        return point;
     }
 
     //method

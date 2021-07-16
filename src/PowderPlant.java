@@ -1,7 +1,7 @@
 public class PowderPlant extends Factories{
 
-    public PowderPlant() {
+    public PowderPlant(int x,int y) {
 
-        super(150, 4,"POWDERPLANT","EGG","POWDER");
+        super(150, 4,"POWDERPLANT","EGG","POWDER",x,y);
     }
 }
