@@ -3,12 +3,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 //import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
-    public class Manager {
+public class Manager {
 
         private User user;
         private Mission mission;
@@ -151,7 +148,7 @@ import java.util.Set;
         Set<String> productKeys=mission.productTasks.keySet();
         for(String productKey: productKeys){
             if(productKey.equals("POWDER")||productKey.equals("BREAD")||productKey.equals("CLOTHES")||productKey.equals("DRESS")
-            ||productKey.equals("ICECREAM")||productKey.equals("PACKEDMILK")){
+            ||productKey.equals("ICECREAM")||productKey.equals("PACKEDMILK")||productKey.equals("CHICKEN")){
                 ++counter;
             }
         }
@@ -374,6 +371,17 @@ import java.util.Set;
                 logger.printError("NO ENOUGH MONEY");
                 return 0;
             }
+        }else if(name.equals("CHICKEN")){
+            Incubator incubator=new Incubator(x,y);
+            if(this.user.getCoins()>=incubator.getPrice()){
+                this.user.setCoins(this.user.getCoins()-incubator.getPrice());
+                factories.add(incubator);
+                logger.printInfo("YOU BUILD A INCUBATOR");
+                return 1;
+            }else{
+                logger.printError("NO ENOUGH MONEY");
+                return 0;
+            }
         }else{
             logger.printError("INVALID FACTORY NAME!");
             return 0;
@@ -441,6 +449,10 @@ import java.util.Set;
     public int upgrade(String name){
         for (int i = 0; i < factories.size(); i++) {
             if (factories.get(i).getOutputProduct().equals(name)) {
+                if(factories.get(i).isOrder()){
+                    logger.printError("FACTORY IS ALREADY WORKING");
+                    return 0;
+                }
                 if(factories.get(i).getUpgradePrice()<=this.user.getCoins()) {
                     factories.get(i).upgrade();
                     this.user.setCoins(this.user.getCoins()-factories.get(i).getUpgradePrice());
@@ -505,6 +517,15 @@ import java.util.Set;
         updateGame();
     }
 
+    public void sortAnimals(){
+        for (int i = 0; i < animals.size(); i++) {
+            for (int i1 = animals.size()-1; i1>i; i1--) {
+                if(animals.get(i).getPoint().getY()<animals.get(i1).getPoint().getY()){
+                    Collections.swap(animals,i,i1);
+                }
+            }
+        }
+    }
 
     public void UpdateUnpickedProducts(){
         for (int i = 0; i < products.size(); i++) {
@@ -1246,6 +1267,31 @@ import java.util.Set;
                         }
                         logger.printInfo("ICE CREAM FACTORY MADE AN ICE CREAM");
                         break;
+                    case "CHICKEN":
+                        Chicken chicken=new Chicken(timeIndex);
+                        if(factories.get(i).getPoint().getX()<300) {
+                            chicken.getPoint().setX(factories.get(i).getPoint().getX() + 100);
+                            chicken.getPoint().setY(factories.get(i).getPoint().getY());
+                        }else{
+                            chicken.getPoint().setX(factories.get(i).getPoint().getX() - 100);
+                            chicken.getPoint().setY(factories.get(i).getPoint().getY());
+                        }
+                        animals.add(chicken);
+                        updateMission("CHICKEN");
+                        if(factories.get(i).isUpgrade()&&factories.get(i).getUpgradeMood()==1) {
+                            Chicken chicken1=new Chicken(timeIndex);
+                            if(factories.get(i).getPoint().getX()<300) {
+                                chicken1.getPoint().setX(factories.get(i).getPoint().getX() + 120);
+                                chicken1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }else{
+                                chicken1.getPoint().setX(factories.get(i).getPoint().getX() - 120);
+                                chicken1.getPoint().setY(factories.get(i).getPoint().getY());
+                            }
+                            animals.add(chicken1);
+                            updateMission("CHICKEN");
+                        }
+                        logger.printInfo("ICE CREAM FACTORY MADE AN ICE CREAM");
+                        break;
                 }
             }
         }
@@ -1270,7 +1316,7 @@ import java.util.Set;
                 if (i!=animals.size()&&(animals.get(i).getName().equals("BEAR") || animals.get(i).getName().equals("LION") || animals.get(i).getName().equals("TIGER"))) {
                     for (int i1 = 0; i1 < this.animals.size(); i1++) {
                             if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
-                                if (animals.get(i).getPoint().isNear(animals.get(i1).getPoint(),25)) {
+                                if (animals.get(i).getPoint().isNear(animals.get(i1).getPoint(),40)) {
                                     logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
                                     animals.remove(i1);
                                     if(i1<i){
@@ -1283,7 +1329,7 @@ import java.util.Set;
                                         i1=0;
                                 }
                             } else if (i1!=animals.size()&&animals.get(i1).getName().equals("DOG")) {
-                                if (animals.get(i).getPoint().isNear(animals.get(i1).getPoint(),25)) {
+                                if (animals.get(i).getPoint().isNear(animals.get(i1).getPoint(),40)) {
                                     logger.printInfo(animals.get(i).getName()+" FIGHT WITH " + animals.get(i1).getName());
                                     animals.remove(i1);
                                     if(i1<i){
@@ -1301,7 +1347,7 @@ import java.util.Set;
                                 }
                             }
                             if (animals.get(i).getName().equals("TIGER")) {
-                                if (((Tiger) animals.get(i)).getLastPoint().isNear(animals.get(i1).getPoint(),25)) {
+                                if (((Tiger) animals.get(i)).getLastPoint().isNear(animals.get(i1).getPoint(),40)) {
                                     if (i1!=animals.size()&&(animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO") || animals.get(i1).getName().equals("CAT"))) {
                                         logger.printInfo(animals.get(i).getName()+" KILLED " + animals.get(i1).getName());
                                         animals.remove(i1);
@@ -1362,10 +1408,10 @@ import java.util.Set;
                 if (i!=animals.size()&&animals.get(i).getHealth()<=50&&(animals.get(i).getName().equals("CHICKEN") || animals.get(i).getName().equals("TURKEY") || animals.get(i).getName().equals("BUFFALO"))) {
                     int minHealth = animals.get(i).getHealth();
                     for (int i1 = 0; i1 < grasses.size(); i1++) {
-                        if (grasses.get(i1).getPoint().isNear(animals.get(i).getPoint(),15)) {
+                        if (grasses.get(i1).getPoint().isNear(animals.get(i).getPoint(),25)) {
                             for (int i2 = 0; i2 < animals.size(); i2++) {
                                 if (animals.get(i2).getName().equals("CHICKEN") || animals.get(i2).getName().equals("TURKEY") || animals.get(i2).getName().equals("BUFFALO")) {
-                                    if (grasses.get(i1).getPoint().isNear(animals.get(i2).getPoint(),15)) {
+                                    if (grasses.get(i1).getPoint().isNear(animals.get(i2).getPoint(),25)) {
                                         if (minHealth < animals.get(i2).getHealth()) {
                                             minHealth = animals.get(i2).getHealth();
                                         }
@@ -1378,7 +1424,7 @@ import java.util.Set;
                     for (int i1 = 0; i1 < animals.size(); i1++) {
                         for (int i2 = 0; i2 < grasses.size(); i2++) {
                             if (animals.get(i1).getName().equals("CHICKEN") || animals.get(i1).getName().equals("TURKEY") || animals.get(i1).getName().equals("BUFFALO")) {
-                                if (animals.get(i1).getHealth() == minHealth && animals.get(i1).getPoint().isNear(grasses.get(i2).getPoint(),15)) {
+                                if (animals.get(i1).getHealth() == minHealth && animals.get(i1).getPoint().isNear(grasses.get(i2).getPoint(),25)) {
                                     grasses.remove(i2);
                                     --i2;
                                     if(i2<0)
@@ -1393,9 +1439,9 @@ import java.util.Set;
                 //cat
                 if (i!=animals.size()&&animals.get(i).getName().equals("CAT")) {
                     for (int i1 = 0; i1 < this.products.size(); i1++) {
-                        if (animals.get(i).getPoint().isNear(products.get(i1).getPoint(),15)) {
+                        if (animals.get(i).getPoint().isNear(products.get(i1).getPoint(),30)) {
                             if(storeroom.getCapacity()>=products.get(i1).getCapacity()) {
-                                storeroom.setCapacity(storeroom.getCapacity()-storeroom.getCapacity());
+                                storeroom.setCapacity(storeroom.getCapacity()-products.get(i1).getCapacity());
                                 storeroom.getProducts().add(products.get(i1));
                                 updateMission(products.get(i1));
                                 products.remove(i1);
@@ -1582,7 +1628,14 @@ import java.util.Set;
             mission.productTasks.put(product.getName(),prim-1);
         }
     }
-
+    public void updateMission(String name){
+        if(mission.productTasks.containsKey(name)){
+            int prim=0;
+            prim=mission.productTasks.get(name);
+            if(prim>0)
+                mission.productTasks.put(name,prim-1);
+        }
+    }
     public int checkStatus(){
         if(this.user.getCoins()==0&&this.storeroom.getCapacity()==30&&this.animals.isEmpty()&&this.products.isEmpty()) {
             this.gameStatus = 0;
@@ -1601,8 +1654,9 @@ import java.util.Set;
         }
         if (!found){
             this.gameStatus=2;
-            if(this.user.getLevel()<this.level)
-                this.user.setLevel(this.user.getLevel()+1);
+            if(this.user.getLevel()<=this.level&&this.user.getLevel()!=5) {
+                this.user.setLevel(this.user.getLevel() + 1);
+            }
             if(this.timeIndex<= mission.time){
                 this.user.setStars(this.user.getStars()+mission.stars);
             }

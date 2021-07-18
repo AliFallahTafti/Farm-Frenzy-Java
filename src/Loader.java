@@ -170,6 +170,8 @@ public class Loader {
         return myPicture;
     }
     public ImageIcon loadGrass(int count,int w,int h){
+        if(count>3)
+            count=3;
         ImageIcon myPicture=  new ImageIcon(path+"\\resources\\GameUI\\grass\\grass"+(count+1)+".png");
         Image image=myPicture.getImage();
         image=image.getScaledInstance(w,h, Image.SCALE_SMOOTH);

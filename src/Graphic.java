@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
 
-public class Graphic extends JFrame implements MouseListener{
+public class Graphic extends JFrame implements MouseListener,ActionListener{
     private Manager manager;
     private FileManagement fileManagement;
     private Loader loader;
@@ -35,6 +35,7 @@ public class Graphic extends JFrame implements MouseListener{
     private  boolean[] build;
     private boolean[] upgrade;
     private int numOfFactory;
+    private Timer timer=new Timer(3500,this);
 
     public Graphic() throws IOException, JavaLayerException {
 //        manager=new Manager();
@@ -1128,7 +1129,7 @@ public class Graphic extends JFrame implements MouseListener{
             }
         }else{
             try {
-                playWav("plant");
+                playWav("factory");
                 build[i]=true;
                 getContentPane().removeAll();
                 getRootPane().updateUI();
@@ -1149,7 +1150,7 @@ public class Graphic extends JFrame implements MouseListener{
             }
         }else{
             try {
-                playWav("plant");
+                playWav("factory");
                 getContentPane().removeAll();
                 getRootPane().updateUI();
                 setLayout(null);
@@ -1169,7 +1170,7 @@ public class Graphic extends JFrame implements MouseListener{
             }
         }else{
             try {
-                playWav("plant");
+                playWav("factory");
                 upgrade[i]=true;
                 getContentPane().removeAll();
                 getRootPane().updateUI();
@@ -1315,6 +1316,7 @@ public class Graphic extends JFrame implements MouseListener{
             public void actionPerformed(ActionEvent e) {
                 try {
                     playWav("click");
+                    timer.stop();
                     loadStoreroom();
                     showStoreroom();
                 } catch (IOException ioException) {
@@ -1324,6 +1326,91 @@ public class Graphic extends JFrame implements MouseListener{
         });
     }
     public void showComponent(){
+        //storeroom
+        showStoreroomButton();
+
+        //show truck
+        showTruck();
+
+        //show animals show products
+        manager.sortAnimals();
+        for (int i = 0; i < manager.getAnimals().size(); i++) {
+            if(!manager.getAnimals().get(i).getName().equals("BEAR")&&!manager.getAnimals().get(i).getName().equals("LION")&&!manager.getAnimals().get(i).getName().equals("TIGER")) {
+                JLabel icon = new JLabel();
+                JLabel progress=new JLabel();
+                if((manager.getAnimals().get(i).getStateOfWalk()==0||manager.getAnimals().get(i).getStateOfWalk()==3)&&!manager.getAnimals().get(i).getName().equals("TURKEY")) {
+                    if(!manager.getAnimals().get(i).getName().equals("CAT")&&!manager.getAnimals().get(i).getName().equals("DOG")){
+                        icon.setBounds(manager.getAnimals().get(i).getPoint().getX()-20, manager.getAnimals().get(i).getPoint().getY()-40, 40, 80);
+                        icon.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 40, 70));
+                        progress.setBounds(5,0,20,5);}
+                    else{
+                        icon.setBounds(manager.getAnimals().get(i).getPoint().getX()-15, manager.getAnimals().get(i).getPoint().getY()-40, 30, 80);
+                        icon.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 30, 70));
+                    }
+                }else{
+                    icon.setBounds(manager.getAnimals().get(i).getPoint().getX()-30, manager.getAnimals().get(i).getPoint().getY()-40, 60, 80);
+                    icon.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 60, 70));
+                    if(!manager.getAnimals().get(i).getName().equals("CAT")&&!manager.getAnimals().get(i).getName().equals("DOG")) {
+                        progress.setBounds(15, 0, 20, 5);
+                    }
+                }
+                progress.setIcon(loader.loadProgress(manager.getAnimals().get(i).getHealth(),20,5));
+                icon.add(progress);
+                getContentPane().add(icon);
+            }else{
+                JButton wild=new JButton();
+                wild.setOpaque(false);
+                wild.setContentAreaFilled(false);
+                wild.setBorderPainted(false);
+                if((manager.getAnimals().get(i).getStateOfWalk()==0||manager.getAnimals().get(i).getStateOfWalk()==3)&&!manager.getAnimals().get(i).getName().equals("BEAR")) {
+                    wild.setBounds(manager.getAnimals().get(i).getPoint().getX()-20, manager.getAnimals().get(i).getPoint().getY()-40, 40, 80);
+                    wild.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 40, 80));
+                }else {
+                    wild.setBounds(manager.getAnimals().get(i).getPoint().getX()-30, manager.getAnimals().get(i).getPoint().getY()-40, 60, 80);
+                    wild.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 60, 80));
+                }
+                if((manager.getAnimals().get(i).getHealth()!=4&&manager.getAnimals().get(i).getName().equals("BEAR"))||(manager.getAnimals().get(i).getHealth()!=4&&manager.getAnimals().get(i).getName().equals("TIGER"))||
+                        (manager.getAnimals().get(i).getHealth()!=3&&manager.getAnimals().get(i).getName().equals("LION"))){
+                    JLabel cage=new JLabel();
+                    cage.setBounds(manager.getAnimals().get(i).getPoint().getX()-30, manager.getAnimals().get(i).getPoint().getY()-40,60,80);
+                    cage.setIcon(loader.loadCage(manager.getAnimals().get(i).getHealth(),60,80));
+                    getContentPane().add(cage);}
+                getContentPane().add(wild);
+                int finalI = i;
+                wild.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        cageAnimal(manager.getAnimals().get(finalI).getPoint().getX(), manager.getAnimals().get(finalI).getPoint().getY());
+                    }
+                });
+            }
+        }
+
+        for (int i = 0; i < manager.getProducts().size(); i++) {
+            JButton product=new JButton();
+            product.setOpaque(false);
+            product.setContentAreaFilled(false);
+            product.setBorderPainted(false);
+            product.setBounds(manager.getProducts().get(i).getPoint().getX(),manager.getProducts().get(i).getPoint().getY(),30,30);
+            product.setIcon(loader.loadProductIcon(manager.getProducts().get(i).getName(),30,30));
+            getContentPane().add(product);
+            int finalI = i;
+            product.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    pickupProduct(manager.getProducts().get(finalI).getPoint().getX(),manager.getProducts().get(finalI).getPoint().getY());
+                }
+            });
+        }
+
+
+        for (int i = 0; i < manager.getGrasses().size(); i++) {
+            JLabel icon = new JLabel();
+            icon.setBounds(manager.getGrasses().get(i).getPoint().getX(), manager.getGrasses().get(i).getPoint().getY(), 50, 50);
+            icon.setIcon(loader.loadGrass(manager.getGrasses().get(i).getNumOfNeighbor(), 50, 50));
+            getContentPane().add(icon);
+        }
+
         //well
         ImageIcon myPicture=loader.well;
         Image image=myPicture.getImage();
@@ -1376,96 +1463,15 @@ public class Graphic extends JFrame implements MouseListener{
         getContentPane().add(wellProgress);
 
 
-        //storeroom
-        showStoreroomButton();
 
         //information
         showInfo();
 
-        //show truck
-        showTruck();
 
         //animal buy button
         showAnimalBuyButton();
 
 
-        //show animals show products
-        for (int i = 0; i < manager.getAnimals().size(); i++) {
-            if(!manager.getAnimals().get(i).getName().equals("BEAR")&&!manager.getAnimals().get(i).getName().equals("LION")&&!manager.getAnimals().get(i).getName().equals("TIGER")) {
-                JLabel icon = new JLabel();
-                JLabel progress=new JLabel();
-                if((manager.getAnimals().get(i).getStateOfWalk()==0||manager.getAnimals().get(i).getStateOfWalk()==3)&&!manager.getAnimals().get(i).getName().equals("TURKEY")) {
-                    if(!manager.getAnimals().get(i).getName().equals("CAT")&&!manager.getAnimals().get(i).getName().equals("DOG")){
-                     icon.setBounds(manager.getAnimals().get(i).getPoint().getX()-15, manager.getAnimals().get(i).getPoint().getY()-35, 30, 70);
-                     icon.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 30, 60));
-                    progress.setBounds(5,0,20,5);}
-                    else{
-                        icon.setBounds(manager.getAnimals().get(i).getPoint().getX()-10, manager.getAnimals().get(i).getPoint().getY()-35, 20, 70);
-                        icon.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 20, 60));
-                    }
-                }else{
-                    icon.setBounds(manager.getAnimals().get(i).getPoint().getX()-25, manager.getAnimals().get(i).getPoint().getY()-35, 50, 70);
-                    icon.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 50, 60));
-                    if(!manager.getAnimals().get(i).getName().equals("CAT")&&!manager.getAnimals().get(i).getName().equals("DOG")) {
-                        progress.setBounds(15, 0, 20, 5);
-                    }
-                }
-                progress.setIcon(loader.loadProgress(manager.getAnimals().get(i).getHealth(),20,5));
-                icon.add(progress);
-                getContentPane().add(icon);
-            }else{
-                JButton wild=new JButton();
-                wild.setOpaque(false);
-                wild.setContentAreaFilled(false);
-                wild.setBorderPainted(false);
-                if((manager.getAnimals().get(i).getStateOfWalk()==0||manager.getAnimals().get(i).getStateOfWalk()==3)&&!manager.getAnimals().get(i).getName().equals("BEAR")) {
-                     wild.setBounds(manager.getAnimals().get(i).getPoint().getX()-15, manager.getAnimals().get(i).getPoint().getY()-30, 30, 60);
-                     wild.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 30, 60));
-                }else {
-                    wild.setBounds(manager.getAnimals().get(i).getPoint().getX()-25, manager.getAnimals().get(i).getPoint().getY()-30, 50, 60);
-                    wild.setIcon(loader.loadAnimal(manager.getAnimals().get(i).getName(), manager.getAnimals().get(i).getStateOfWalk(), 50, 60));
-                }
-                if((manager.getAnimals().get(i).getHealth()!=4&&manager.getAnimals().get(i).getName().equals("BEAR"))||(manager.getAnimals().get(i).getHealth()!=4&&manager.getAnimals().get(i).getName().equals("TIGER"))||
-                        (manager.getAnimals().get(i).getHealth()!=3&&manager.getAnimals().get(i).getName().equals("LION"))){
-                JLabel cage=new JLabel();
-                cage.setBounds(manager.getAnimals().get(i).getPoint().getX()-25, manager.getAnimals().get(i).getPoint().getY()-30,50,60);
-                cage.setIcon(loader.loadCage(manager.getAnimals().get(i).getHealth(),50,60));
-                getContentPane().add(cage);}
-                getContentPane().add(wild);
-                int finalI = i;
-                wild.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        cageAnimal(manager.getAnimals().get(finalI).getPoint().getX(), manager.getAnimals().get(finalI).getPoint().getY());
-                    }
-                });
-            }
-        }
-
-        for (int i = 0; i < manager.getProducts().size(); i++) {
-            JButton product=new JButton();
-            product.setOpaque(false);
-            product.setContentAreaFilled(false);
-            product.setBorderPainted(false);
-            product.setBounds(manager.getProducts().get(i).getPoint().getX(),manager.getProducts().get(i).getPoint().getY(),30,30);
-            product.setIcon(loader.loadProductIcon(manager.getProducts().get(i).getName(),30,30));
-            getContentPane().add(product);
-            int finalI = i;
-            product.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    pickupProduct(manager.getProducts().get(finalI).getPoint().getX(),manager.getProducts().get(finalI).getPoint().getY());
-                }
-            });
-        }
-
-
-        for (int i = 0; i < manager.getGrasses().size(); i++) {
-            JLabel icon = new JLabel();
-            icon.setBounds(manager.getGrasses().get(i).getPoint().getX(), manager.getGrasses().get(i).getPoint().getY(), 30, 30);
-            icon.setIcon(loader.loadGrass(manager.getGrasses().get(i).getNumOfNeighbor(), 30, 30));
-            getContentPane().add(icon);
-        }
 
 
         //workshop
@@ -1473,7 +1479,7 @@ public class Graphic extends JFrame implements MouseListener{
         Set<String> productKeys=manager.getMission().productTasks.keySet();
         for(String productKey: productKeys) {
              if(productKey.equals("POWDER")||productKey.equals("BREAD")||productKey.equals("CLOTHES")||productKey.equals("DRESS")||
-                     productKey.equals("ICECREAM")||productKey.equals("PACKEDMILK")){
+                     productKey.equals("ICECREAM")||productKey.equals("PACKEDMILK")||productKey.equals("CHICKEN")){
                  if(!build[i]){
                      JButton product=new JButton();
                      product.setOpaque(false);
@@ -1580,6 +1586,7 @@ public class Graphic extends JFrame implements MouseListener{
             public void actionPerformed(ActionEvent e) {
                 try {
                     playWav("click");
+                    timer.stop();
                     pause();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
@@ -1611,6 +1618,7 @@ public class Graphic extends JFrame implements MouseListener{
                 }
             }
         });
+        timer.start();
     }
 
     public void turnGame(){
@@ -1627,6 +1635,13 @@ public class Graphic extends JFrame implements MouseListener{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                playWav("victory");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            timer.stop();
+            removeMouseListener(this);
             menu(-2);
         }else{
             try {
@@ -1634,6 +1649,13 @@ public class Graphic extends JFrame implements MouseListener{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                playWav("victory");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            timer.stop();
+            removeMouseListener(this);
             menu(-1);
         }
 
@@ -1697,6 +1719,7 @@ public class Graphic extends JFrame implements MouseListener{
             public void actionPerformed(ActionEvent e) {
                 try {
                     playWav("click");
+                    removeMouseListener(Graphic.this);
                     manager.logout();
                     loadBackground();
                     graphicProcessing();
@@ -1723,6 +1746,7 @@ public class Graphic extends JFrame implements MouseListener{
             public void actionPerformed(ActionEvent e) {
                 try {
                     playWav("click");
+                    removeMouseListener(Graphic.this);
                     manager.exit();
                     player.close();
                     getContentPane().removeAll();
@@ -1761,11 +1785,11 @@ public class Graphic extends JFrame implements MouseListener{
         if(e.getX()<550&&e.getX()>200&&e.getY()<450&&e.getY()>180) {
             int count = 0;
             for (int i = 0; i < manager.getGrasses().size(); i++) {
-                if (manager.getGrasses().get(i).getPoint().isNear(e.getX(), e.getY(),20)) {
+                if (manager.getGrasses().get(i).getPoint().isNear(e.getX(), e.getY(),50)) {
                     ++count;
                 }
             }
-            plantGrass(e.getX()-20, e.getY()-40, count);
+            plantGrass(e.getX()-25, e.getY()-50, count);
         }
     }
 
@@ -1787,5 +1811,10 @@ public class Graphic extends JFrame implements MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        turnGame();
     }
 }

@@ -12,7 +12,7 @@ public class Point {
     public Point(){
         Random random=new Random();
         maxX=550;
-        maxY=450;
+        maxY=400;
         minX=200;
         minY=180;
         this.x=random.nextInt(maxX);

@@ -14,8 +14,9 @@
       }
     ],
     "productTasks": {
-      "EGG": 6
-    },
+      "EGG": 6,
+    "CHICKEN":4
+,      "POWDER":2      },
     "animalTask": {},
     "stars": 100
   },
@@ -83,7 +84,7 @@
       },
       {
         "time": 4,
-        "name": "BEAR"
+        "name": "TIGER"
       },
       {
         "time": 8,
